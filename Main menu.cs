@@ -26,25 +26,17 @@ namespace BorsenoTextEditor
             openFileDialog1.DefaultExt = "txt";
         }
 
-        private void OnFileChoosing(object sender, EventArgs e)
+        private void SaveText()
         {
-            ChooseFile();
-
-            if (!String.IsNullOrEmpty(CurrentFilePath))
-                FileManager.Load(CurrentFilePath, Input);
-        }
-
-        private void OnSaving(object sender, EventArgs e)
-        {
-            ChooseOrCreateFile();
-
             if (!String.IsNullOrEmpty(CurrentFilePath))
                 FileManager.Save(CurrentFilePath, Input.Text);
-        }
+            else
+            {
+                ChooseOrCreateFile();
 
-        private void OnClearing(object sender, EventArgs e)
-        {
-            Input.Clear();
+                if (!String.IsNullOrEmpty(CurrentFilePath))
+                    FileManager.Save(CurrentFilePath, Input.Text);
+            }
         }
 
         private void ChooseFile()
@@ -63,10 +55,39 @@ namespace BorsenoTextEditor
                 CurrentFilePath = saveFileDialog1.FileName;
         }
 
+        private void OnFileChoosing(object sender, EventArgs e)
+        {
+            ChooseFile();
+
+            if (!String.IsNullOrEmpty(CurrentFilePath))
+                FileManager.Load(CurrentFilePath, Input);
+        }
+
+        private void OnSaving(object sender, EventArgs e)
+        {
+            SaveText();
+        }
+
+        private void OnClearing(object sender, EventArgs e)
+        {
+            Input.Clear();
+        }
+
         private void ResetCurrentFileName(object sender, EventArgs e)
         {
             CurrentFilePath = null;
         }
 
+        private void InputPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyData == Keys.Tab)
+                e.IsInputKey = true;
+            if (e.KeyData == (Keys.Tab | Keys.Shift))
+                e.IsInputKey = true;
+            if (e.KeyData == (Keys.Control | Keys.S))
+            {
+                SaveText();
+            }
+        }
     }
 }

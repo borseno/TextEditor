@@ -40,10 +40,14 @@ namespace BorsenoTextEditor
 
         private static Encoding GetEncoding(string filename)
         {
-            using (var fileStream = new StreamReader(filename, Encoding.Default, true))
+            if (File.Exists(filename))
             {
-                return fileStream.CurrentEncoding;
+                using (var fileStream = new StreamReader(filename, Encoding.Default, true))
+                {
+                    return fileStream.CurrentEncoding;
+                }
             }
+            return Encoding.Default;
         }
     }
 }

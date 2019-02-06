@@ -56,6 +56,7 @@
             this.Input.Size = new System.Drawing.Size(972, 545);
             this.Input.TabIndex = 0;
             this.Input.Text = "";
+            this.Input.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.InputPreviewKeyDown);
             // 
             // FileChoosing
             // 
