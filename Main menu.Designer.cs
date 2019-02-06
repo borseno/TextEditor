@@ -16,7 +16,7 @@
 - Обеспечить сжатие информации при хранении в БД средством любой ThirdParty библиотеки
 - Для форматов json и xml обеспечить подсветку синтаксиса и форматирование
 */
-    partial class Form1
+    partial class MainForm
     {
         private System.ComponentModel.IContainer components = null;
         
@@ -56,7 +56,6 @@
             this.Input.Size = new System.Drawing.Size(972, 545);
             this.Input.TabIndex = 0;
             this.Input.Text = "";
-            this.Input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.onKeyPress);
             // 
             // FileChoosing
             // 
@@ -119,7 +118,7 @@
             this.CurrentFileNameLabel.TabIndex = 6;
             this.CurrentFileNameLabel.Text = "Current File Name:";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -131,8 +130,8 @@
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.FileChoosing);
             this.Controls.Add(this.Input);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "MainForm";
             this.ResumeLayout(false);
             this.PerformLayout();
 
