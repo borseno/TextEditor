@@ -12,6 +12,7 @@ namespace BorsenoTextEditor
 {
     public partial class MainForm : Form
     {
+        private ITextFileManager fileManager;
         private string _currentFilePath;
 
         private string CurrentFilePath
@@ -24,18 +25,20 @@ namespace BorsenoTextEditor
         {
             InitializeComponent();
             openFileDialog1.DefaultExt = "txt";
+            saveFileDialog1.DefaultExt = "txt";
+            fileManager = new FileManager();
         }
 
         private void SaveText()
         {
             if (!String.IsNullOrEmpty(CurrentFilePath))
-                FileManager.Save(CurrentFilePath, Input.Text);
+                fileManager.Save(CurrentFilePath, Input.Text);
             else
             {
                 ChooseOrCreateFile();
 
                 if (!String.IsNullOrEmpty(CurrentFilePath))
-                    FileManager.Save(CurrentFilePath, Input.Text);
+                    fileManager.Save(CurrentFilePath, Input.Text);
             }
         }
 
@@ -60,7 +63,7 @@ namespace BorsenoTextEditor
             ChooseFile();
 
             if (!String.IsNullOrEmpty(CurrentFilePath))
-                FileManager.Load(CurrentFilePath, Input);
+                fileManager.Load(CurrentFilePath, Input);
         }
 
         private void OnSaving(object sender, EventArgs e)
@@ -85,9 +88,7 @@ namespace BorsenoTextEditor
             if (e.KeyData == (Keys.Tab | Keys.Shift))
                 e.IsInputKey = true;
             if (e.KeyData == (Keys.Control | Keys.S))
-            {
                 SaveText();
-            }
         }
     }
 }

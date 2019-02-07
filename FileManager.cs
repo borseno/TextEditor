@@ -11,9 +11,9 @@ using System.IO;
 
 namespace BorsenoTextEditor
 {
-    static class FileManager
+    class FileManager : ITextFileManager
     {
-        public static void Save(string path, string value)
+        public void Save(string path, string value)
         {
             Encoding fileEncoding = GetEncoding(path);
 
@@ -27,7 +27,7 @@ namespace BorsenoTextEditor
             }
         }
 
-        public static void Load(string path, TextBoxBase into)
+        public void Load(string path, TextBoxBase into)
         {
             into.Clear();
             using (var fileStream = new StreamReader(path, Encoding.Default, true))
@@ -38,7 +38,7 @@ namespace BorsenoTextEditor
             }
         }
 
-        private static Encoding GetEncoding(string filename)
+        private Encoding GetEncoding(string filename)
         {
             if (File.Exists(filename))
             {
