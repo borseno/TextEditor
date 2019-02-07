@@ -28,15 +28,23 @@ namespace BorsenoTextEditor
 
         public string GetFile()
         {
-            // ???  I know it's a bad idea... I Tried to inherit from CommonDialog
-            while (!_chooseForm.IsSelected)
-                ;
-            return _chooseForm.SelectedFileName;
+            _chooseForm.FormClosed += OnFormClosed;
+            _chooseForm.Show();
+
+
+
+            throw new NotImplementedException();
         }
 
         public string GetOrCreateFile()
         {
             throw new NotImplementedException();
+        }
+
+        private void OnFormClosed(object sender, EventArgs e)
+        {
+            _name = ((ChooseFileFromDBForm) sender).SelectedFileName;
+            GetFile();
         }
     }
 }

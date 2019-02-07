@@ -42,7 +42,7 @@
             this.filesDBdataGridView.ReadOnly = true;
             this.filesDBdataGridView.Size = new System.Drawing.Size(258, 340);
             this.filesDBdataGridView.TabIndex = 0;
-            this.filesDBdataGridView.SelectionChanged += new System.EventHandler(this.OnSelectionChanged);
+ 
             // 
             // tableDescription
             // 
