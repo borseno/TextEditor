@@ -29,7 +29,7 @@ namespace BorsenoTextEditor
             openFileDialog1.DefaultExt = "txt";
             saveFileDialog1.DefaultExt = "txt";
 
-            _fileManager = new FileManager();
+            _fileManager = new ExplorerFileManager();
             _filePicker = new ExplorerFilePicker(save: saveFileDialog1, open: openFileDialog1);
         }
 

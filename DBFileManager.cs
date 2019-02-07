@@ -11,10 +11,16 @@ namespace BorsenoTextEditor
     class DBFileManager : ITextFileManager
     {
         private readonly string _connectionString;
+        private readonly string _tableName;
+        private readonly string _valueColumnName;
+        private readonly string _nameColumnName;
 
-        public DBFileManager(string connectionString)
+        public DBFileManager(string connectionString, string tableName, string valueColumnName, string nameColumnName)
         {
             _connectionString = connectionString;
+            _tableName = tableName;
+            _valueColumnName = valueColumnName;
+            _nameColumnName = nameColumnName;
         }
 
         public void Save(string name, string value)
@@ -23,11 +29,9 @@ namespace BorsenoTextEditor
             {
                 conn.Open();
 
-                string tablename = "binary_Files";
-
                 bool nameExists;
                 using (var checkCMD = new SQLiteCommand(
-                    $"Select id from {tablename} where Name = '{name}'", conn))
+                    $"Select id from {_tableName} where {_nameColumnName} = '{name}'", conn))
                 {
                     nameExists = checkCMD.ExecuteReader().HasRows;
                 }
@@ -35,13 +39,13 @@ namespace BorsenoTextEditor
                 string query;
                 if (nameExists)
                 {
-                    query = $"Update {tablename} " +
-                                   $"set binary_file = '{value}' " +
-                                   $"where Name = '{name}'";
+                    query = $"Update {_tableName} " +
+                                   $"set {_valueColumnName} = '{value}' " +
+                                   $"where {_nameColumnName} = '{name}'";
                 }
                 else
                 {
-                    query = $"Insert into {tablename}(binary_file, Name) " +
+                    query = $"Insert into {_tableName}({_valueColumnName}, {_nameColumnName}) " +
                             $"values ('{value}', '{name}')";
                 }
 
@@ -60,10 +64,8 @@ namespace BorsenoTextEditor
             {
                 connection.Open();
 
-                string tableName = "binary_Files";
-
-                string query = $"SELECT distinct binary_file from {tableName} " +
-                               $"where Name = '{name}'";
+                string query = $"SELECT distinct {_valueColumnName} from {_tableName} " +
+                               $"where {_nameColumnName} = '{name}'";
 
                 using (var command = new SQLiteCommand(query, connection))
                 {
@@ -75,9 +77,7 @@ namespace BorsenoTextEditor
                     }
                 }
             }
-
             textBox.Text = value;
         }
-
     }
 }
