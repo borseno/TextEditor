@@ -12,7 +12,8 @@ namespace BorsenoTextEditor
 {
     public partial class MainForm : Form
     {
-        private ITextFileManager fileManager;
+        private readonly IFilePicker _filePicker;
+        private readonly ITextFileManager _fileManager;
         private string _currentFilePath;
 
         private string CurrentFilePath
@@ -24,46 +25,49 @@ namespace BorsenoTextEditor
         public MainForm()
         {
             InitializeComponent();
+
             openFileDialog1.DefaultExt = "txt";
             saveFileDialog1.DefaultExt = "txt";
-            fileManager = new FileManager();
+
+            _fileManager = new FileManager();
+            _filePicker = new ExplorerFilePicker(save: saveFileDialog1, open: openFileDialog1);
         }
 
         private void SaveText()
         {
             if (!String.IsNullOrEmpty(CurrentFilePath))
-                fileManager.Save(CurrentFilePath, Input.Text);
+                _fileManager.Save(CurrentFilePath, Input.Text);
             else
             {
-                ChooseOrCreateFile();
+                OpenOrCreateFile();
 
                 if (!String.IsNullOrEmpty(CurrentFilePath))
-                    fileManager.Save(CurrentFilePath, Input.Text);
+                    _fileManager.Save(CurrentFilePath, Input.Text);
             }
         }
 
-        private void ChooseFile()
+        private void OpenFile()
         {
-            DialogResult dialogResult = openFileDialog1.ShowDialog();
+            string filename = _filePicker.GetFile();
 
-            if (dialogResult == DialogResult.OK)
-                CurrentFilePath = openFileDialog1.FileName;
+            if (filename != null)
+                CurrentFilePath = filename;
         }
 
-        private void ChooseOrCreateFile()
+        private void OpenOrCreateFile()
         {
-            DialogResult dialogResult = saveFileDialog1.ShowDialog();
+            string filename = _filePicker.GetOrCreateFile();
 
-            if (dialogResult == DialogResult.OK)
-                CurrentFilePath = saveFileDialog1.FileName;
+            if (filename != null)
+                CurrentFilePath = filename;
         }
 
         private void OnFileChoosing(object sender, EventArgs e)
         {
-            ChooseFile();
+            OpenFile();
 
             if (!String.IsNullOrEmpty(CurrentFilePath))
-                fileManager.Load(CurrentFilePath, Input);
+                _fileManager.Load(CurrentFilePath, Input);
         }
 
         private void OnSaving(object sender, EventArgs e)
