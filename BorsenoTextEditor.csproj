@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CellSelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CellSelectionDialog.Designer.cs">
+      <DependentUpon>CellSelectionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChooseFileFromDBForm.cs">
       <SubType>Form</SubType>
     </Compile>
