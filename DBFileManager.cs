@@ -8,7 +8,7 @@ using System.Data.SQLite;
 
 namespace BorsenoTextEditor
 {
-    class DBFileManager : ITextFileManager
+    sealed class DBFileManager : IFileManager
     {
         private readonly string _connectionString;
         private readonly string _tableName;

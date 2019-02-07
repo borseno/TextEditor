@@ -52,11 +52,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChooseFileFromDBForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChooseFileFromDBForm.Designer.cs">
+      <DependentUpon>ChooseFileFromDBForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DBFileManager.cs" />
+    <Compile Include="DBFilePicker.cs" />
     <Compile Include="ExplorerFilePicker.cs" />
-    <Compile Include="FileManager.cs" />
+    <Compile Include="ExplorerFileManager.cs" />
     <Compile Include="IFilePicker.cs" />
-    <Compile Include="ITextFileManager.cs" />
+    <Compile Include="IFileManager.cs" />
     <Compile Include="Main menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +72,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChooseFileFromDBForm.resx">
+      <DependentUpon>ChooseFileFromDBForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main menu.resx">
       <DependentUpon>Main menu.cs</DependentUpon>
     </EmbeddedResource>

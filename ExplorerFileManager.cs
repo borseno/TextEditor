@@ -11,7 +11,7 @@ using System.IO;
 
 namespace BorsenoTextEditor
 {
-    class ExplorerFileManager : ITextFileManager
+    sealed class ExplorerFileManager : IFileManager
     {
         public void Save(string path, string value)
         {

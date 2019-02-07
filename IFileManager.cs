@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BorsenoTextEditor
 {
-    interface ITextFileManager
+    interface IFileManager
     {
         void Save(string filename, string data);
         void Load(string filename, TextBoxBase textBox);

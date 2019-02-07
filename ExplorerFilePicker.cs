@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BorsenoTextEditor
 {
-    class ExplorerFilePicker : IFilePicker
+    sealed class ExplorerFilePicker : IFilePicker
     {
         private readonly SaveFileDialog _save;
         private readonly OpenFileDialog _open;

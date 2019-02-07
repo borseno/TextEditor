@@ -7,19 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace BorsenoTextEditor
 {
     public partial class MainForm : Form
     {
         private readonly IFilePicker _filePicker;
-        private readonly ITextFileManager _fileManager;
-        private string _currentFilePath;
+        private readonly IFileManager _fileManager;
+        private string _currentFileName;
+        private string _connectionString;
+        private string _tableName;
+        private string _valueColumnName;
+        private string _nameColumnName;
 
         private string CurrentFilePath
         {
-            get => _currentFilePath;
-            set => _currentFilePath = CurrentFileNameValue.Text = value;
+            get => _currentFileName;
+            set => _currentFileName = CurrentFileNameValue.Text = value;
         }
 
         public MainForm()
@@ -31,6 +36,16 @@ namespace BorsenoTextEditor
 
             _fileManager = new ExplorerFileManager();
             _filePicker = new ExplorerFilePicker(save: saveFileDialog1, open: openFileDialog1);
+
+            /*
+            ..................TEST..................
+             */
+            _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            _tableName = "binary_Files";
+            _valueColumnName = "binary_file";
+            _nameColumnName = "Name";
+
+            new ChooseFileFromDBForm(_connectionString, _tableName, _nameColumnName).Show();
         }
 
         private void SaveText()
