@@ -10,6 +10,7 @@ namespace BorsenoTextEditor
     sealed class DBFilePicker : IFilePicker
     {
         private readonly ChooseFileFromDBForm _chooseForm;
+        private readonly SaveAsForm _saveAsForm;
         private readonly string _connectionString;
         private readonly string _tableName;
         private readonly string _valueColumnName;
@@ -25,6 +26,7 @@ namespace BorsenoTextEditor
             _nameColumnName = nameColumnName;
 
             _chooseForm = new ChooseFileFromDBForm(_connectionString, _tableName, _nameColumnName);
+            _saveAsForm = new SaveAsForm();
         }
 
         public string GetFile()
@@ -38,7 +40,12 @@ namespace BorsenoTextEditor
 
         public string GetOrCreateFile()
         {
-            throw new NotImplementedException();
+            _saveAsForm.ShowDialog();
+
+            if (_saveAsForm.DialogResult == DialogResult.OK)
+                return _saveAsForm.FileName;
+            else
+                return null;
         }
     }
 }

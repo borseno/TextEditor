@@ -1,6 +1,6 @@
 ﻿namespace BorsenoTextEditor
 {
-    partial class ChooseOrCreateFileFromDBForm
+    partial class SaveAsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,59 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.input = new System.Windows.Forms.TextBox();
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // label1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 34);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(240, 426);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.FilesDBDataGridView_RowPostPaint);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(12, 24);
+            this.label1.MaximumSize = new System.Drawing.Size(360, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(341, 42);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "You haven\'t chosen any files to edit. Write a name for a new file / file to overr" +
+    "ide below:";
+            // 
+            // input
+            // 
+            this.input.Location = new System.Drawing.Point(12, 146);
+            this.input.Name = "input";
+            this.input.Size = new System.Drawing.Size(335, 20);
+            this.input.TabIndex = 1;
             // 
             // OK
             // 
             this.OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OK.Location = new System.Drawing.Point(12, 466);
+            this.OK.Location = new System.Drawing.Point(12, 199);
             this.OK.Name = "OK";
-            this.OK.Size = new System.Drawing.Size(103, 28);
-            this.OK.TabIndex = 1;
+            this.OK.Size = new System.Drawing.Size(126, 37);
+            this.OK.TabIndex = 2;
             this.OK.Text = "OK";
             this.OK.UseVisualStyleBackColor = true;
+            this.OK.Click += new System.EventHandler(this.OnOk);
             // 
             // Cancel
             // 
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Location = new System.Drawing.Point(149, 466);
+            this.Cancel.Location = new System.Drawing.Point(218, 199);
             this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(103, 28);
-            this.Cancel.TabIndex = 2;
+            this.Cancel.Size = new System.Drawing.Size(129, 37);
+            this.Cancel.TabIndex = 3;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
             // 
-            // ChooseOrCreateFileFromDBForm
+            // SaveAsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 506);
+            this.ClientSize = new System.Drawing.Size(363, 277);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.OK);
-            this.Controls.Add(this.dataGridView1);
-            this.Name = "ChooseOrCreateFileFromDBForm";
-            this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Controls.Add(this.input);
+            this.Controls.Add(this.label1);
+            this.Name = "SaveAsForm";
+            this.Text = "SaveAs";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox input;
         private System.Windows.Forms.Button OK;
         private System.Windows.Forms.Button Cancel;
     }

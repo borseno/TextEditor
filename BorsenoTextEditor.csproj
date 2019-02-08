@@ -60,9 +60,9 @@
     </Compile>
     <Compile Include="DBFileManager.cs" />
     <Compile Include="DBFilePicker.cs" />
-    <Compile Include="EncodingExtension.cs" />
     <Compile Include="ExplorerFilePicker.cs" />
     <Compile Include="ExplorerFileManager.cs" />
+    <Compile Include="EncodingHelper.cs" />
     <Compile Include="IFilePicker.cs" />
     <Compile Include="IFileManager.cs" />
     <Compile Include="Main menu.cs">
@@ -73,6 +73,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveAsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveAsForm.Designer.cs">
+      <DependentUpon>SaveAsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ChooseFileFromDBForm.resx">
       <DependentUpon>ChooseFileFromDBForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -88,6 +94,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SaveAsForm.resx">
+      <DependentUpon>SaveAsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

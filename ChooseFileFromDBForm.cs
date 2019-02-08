@@ -52,16 +52,25 @@ namespace BorsenoTextEditor
             }
         }
 
-        private void OnSelected(object sender, EventArgs e)
-        {
-            IsSelected = true;
-        }
         private void filesDBdataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             using (SolidBrush b = new SolidBrush(filesDBdataGridView.RowHeadersDefaultCellStyle.ForeColor))
             {
                 e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 10, e.RowBounds.Location.Y + 4);
             }
+        }
+
+        private void OnOk(object sender, EventArgs e)
+        {
+            if (filesDBdataGridView.SelectedCells.Count > 0)
+            {
+                IsSelected = true;
+            }
+        }
+
+        private void OnShown(object sender, EventArgs e)
+        {
+            filesDBdataGridView.ClearSelection();
         }
     }
 }

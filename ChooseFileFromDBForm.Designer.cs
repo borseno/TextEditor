@@ -38,6 +38,9 @@ namespace BorsenoTextEditor
             // 
             // filesDBdataGridView
             // 
+            this.filesDBdataGridView.AllowUserToAddRows = false;
+            this.filesDBdataGridView.AllowUserToDeleteRows = false;
+            this.filesDBdataGridView.AllowUserToOrderColumns = true;
             this.filesDBdataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.filesDBdataGridView.Location = new System.Drawing.Point(5, 40);
             this.filesDBdataGridView.Name = "filesDBdataGridView";
@@ -64,7 +67,7 @@ namespace BorsenoTextEditor
             this.SelectButton.TabIndex = 2;
             this.SelectButton.Text = "OK";
             this.SelectButton.UseVisualStyleBackColor = true;
-            this.SelectButton.Click += new System.EventHandler(this.OnSelected);
+            this.SelectButton.Click += new System.EventHandler(this.OnOk);
             // 
             // button1
             // 
@@ -88,6 +91,7 @@ namespace BorsenoTextEditor
             this.Name = "ChooseFileFromDBForm";
             this.Text = "ChooseFileFromDBForm";
             this.Load += new System.EventHandler(this.OnLoad);
+            this.Shown += new System.EventHandler(this.OnShown);
             ((System.ComponentModel.ISupportInitialize)(this.filesDBdataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
