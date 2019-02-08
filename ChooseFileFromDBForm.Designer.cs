@@ -1,6 +1,7 @@
-﻿namespace BorsenoTextEditor
+﻿using System.Windows.Forms;
+namespace BorsenoTextEditor
 {
-    partial class ChooseFileFromDBForm
+    partial class ChooseFileFromDBForm : Form
     {
         /// <summary>
         /// Required designer variable.
@@ -31,6 +32,7 @@
             this.filesDBdataGridView = new System.Windows.Forms.DataGridView();
             this.tableDescription = new System.Windows.Forms.Label();
             this.SelectButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.filesDBdataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,7 +44,7 @@
             this.filesDBdataGridView.ReadOnly = true;
             this.filesDBdataGridView.Size = new System.Drawing.Size(258, 340);
             this.filesDBdataGridView.TabIndex = 0;
- 
+            this.filesDBdataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.filesDBdataGridView_RowPostPaint);
             // 
             // tableDescription
             // 
@@ -55,19 +57,31 @@
             // 
             // SelectButton
             // 
+            this.SelectButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.SelectButton.Location = new System.Drawing.Point(12, 386);
             this.SelectButton.Name = "SelectButton";
-            this.SelectButton.Size = new System.Drawing.Size(244, 46);
+            this.SelectButton.Size = new System.Drawing.Size(106, 46);
             this.SelectButton.TabIndex = 2;
-            this.SelectButton.Text = "Select";
+            this.SelectButton.Text = "OK";
             this.SelectButton.UseVisualStyleBackColor = true;
             this.SelectButton.Click += new System.EventHandler(this.OnSelected);
+            // 
+            // button1
+            // 
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.button1.Location = new System.Drawing.Point(154, 387);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(103, 45);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Cancel";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // ChooseFileFromDBForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(269, 444);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.SelectButton);
             this.Controls.Add(this.tableDescription);
             this.Controls.Add(this.filesDBdataGridView);
@@ -85,5 +99,6 @@
         private System.Windows.Forms.DataGridView filesDBdataGridView;
         private System.Windows.Forms.Label tableDescription;
         private System.Windows.Forms.Button SelectButton;
+        private Button button1;
     }
 }

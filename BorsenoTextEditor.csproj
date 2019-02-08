@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="DBFileManager.cs" />
     <Compile Include="DBFilePicker.cs" />
+    <Compile Include="EncodingExtension.cs" />
     <Compile Include="ExplorerFilePicker.cs" />
     <Compile Include="ExplorerFileManager.cs" />
     <Compile Include="IFilePicker.cs" />

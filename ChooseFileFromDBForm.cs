@@ -12,19 +12,20 @@ using System.Data.SQLite;
 
 namespace BorsenoTextEditor
 {
-    public partial class ChooseFileFromDBForm : Form
+    public partial class ChooseFileFromDBForm
     {
         private readonly string _connectionString;
         private readonly string _tableName;
         private readonly string _nameColumnName;
-        private bool _isSelected = false;
+
+        public bool IsSelected { get; private set; } = false;
 
         public string SelectedFileName
         {
             get
             {
-                if (_isSelected)
-                    return filesDBdataGridView.SelectedCells[0].ToString();
+                if (IsSelected)
+                    return filesDBdataGridView.SelectedCells[0].Value.ToString();
                 return null;
             }
         }
@@ -53,10 +54,14 @@ namespace BorsenoTextEditor
 
         private void OnSelected(object sender, EventArgs e)
         {
-            if (filesDBdataGridView.SelectedCells.Count == 1)
-                _isSelected = true;
-            else
-                MessageBox.Show(@"You can choose only one cell");
+            IsSelected = true;
+        }
+        private void filesDBdataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            using (SolidBrush b = new SolidBrush(filesDBdataGridView.RowHeadersDefaultCellStyle.ForeColor))
+            {
+                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 10, e.RowBounds.Location.Y + 4);
+            }
         }
     }
 }

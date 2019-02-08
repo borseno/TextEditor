@@ -15,12 +15,12 @@ namespace BorsenoTextEditor
     {
         public void Save(string path, string value)
         {
-            Encoding fileEncoding = GetEncoding(path);
+            Encoding fileEncoding = EncodingHelper.GetFileEncoding(path) ?? Encoding.Default;
 
             byte[] result = fileEncoding.GetBytes(value);
 
             File.WriteAllText(path, String.Empty);
-            using (var fileStream = File.Open(path, FileMode.OpenOrCreate))
+            using (var fileStream = File.Open(path, FileMode.Open))
             {
                 fileStream.Seek(0, SeekOrigin.End);
                 fileStream.Write(result, 0, result.Length);
@@ -33,21 +33,8 @@ namespace BorsenoTextEditor
             using (var fileStream = new StreamReader(path, Encoding.Default, true))
             {
                 string value = fileStream.ReadToEnd();
-
                 into.Text = value;
             }
-        }
-
-        private Encoding GetEncoding(string filename)
-        {
-            if (File.Exists(filename))
-            {
-                using (var fileStream = new StreamReader(filename, Encoding.Default, true))
-                {
-                    return fileStream.CurrentEncoding;
-                }
-            }
-            return Encoding.Default;
         }
     }
 }

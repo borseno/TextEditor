@@ -14,6 +14,7 @@ namespace BorsenoTextEditor
         private readonly string _tableName;
         private readonly string _valueColumnName;
         private readonly string _nameColumnName;
+        private readonly Encoding _valueEncoding;
 
         public DBFileManager(string connectionString, string tableName, string valueColumnName, string nameColumnName)
         {
@@ -21,6 +22,7 @@ namespace BorsenoTextEditor
             _tableName = tableName;
             _valueColumnName = valueColumnName;
             _nameColumnName = nameColumnName;
+            _valueEncoding = EncodingHelper.GetDBEncoding(connectionString);
         }
 
         public void Save(string name, string value)
@@ -58,7 +60,7 @@ namespace BorsenoTextEditor
 
         public void Load(string name, TextBoxBase textBox)
         {
-            string value = null;
+            StringBuilder value = new StringBuilder(32);
 
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -73,11 +75,15 @@ namespace BorsenoTextEditor
 
                     if (reader.HasRows)
                     {
-                        value = reader.GetTextReader(0).ReadToEnd();
+                        while (reader.Read())
+                        {
+                            string temp = _valueEncoding.GetString((byte[])reader[_valueColumnName]);
+                            value.AppendLine(temp);
+                        }
                     }
                 }
             }
-            textBox.Text = value;
+            textBox.Text = value.ToString();
         }
     }
 }

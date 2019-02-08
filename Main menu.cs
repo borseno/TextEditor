@@ -31,21 +31,16 @@ namespace BorsenoTextEditor
         {
             InitializeComponent();
 
-            openFileDialog1.DefaultExt = "txt";
-            saveFileDialog1.DefaultExt = "txt";
-
-            _fileManager = new ExplorerFileManager();
-            _filePicker = new ExplorerFilePicker(save: saveFileDialog1, open: openFileDialog1);
-
-            /*
-            ..................TEST..................
-             */
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             _tableName = "binary_Files";
             _valueColumnName = "binary_file";
             _nameColumnName = "Name";
 
-            new ChooseFileFromDBForm(_connectionString, _tableName, _nameColumnName).Show();
+            openFileDialog1.DefaultExt = "txt";
+            saveFileDialog1.DefaultExt = "txt";
+
+            _fileManager = new DBFileManager(_connectionString, _tableName, _valueColumnName, _nameColumnName);
+            _filePicker = new DBFilePicker(_connectionString, _tableName, _valueColumnName, _nameColumnName);
         }
 
         private void SaveText()
