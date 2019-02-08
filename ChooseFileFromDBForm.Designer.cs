@@ -47,7 +47,7 @@ namespace BorsenoTextEditor
             this.filesDBdataGridView.ReadOnly = true;
             this.filesDBdataGridView.Size = new System.Drawing.Size(258, 340);
             this.filesDBdataGridView.TabIndex = 0;
-            this.filesDBdataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.filesDBdataGridView_RowPostPaint);
+            this.filesDBdataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DataGridView_RowPostPaint);
             // 
             // tableDescription
             // 

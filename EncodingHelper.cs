@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.IO;
+using System.Diagnostics;
 
 namespace BorsenoTextEditor
 {
@@ -18,14 +19,16 @@ namespace BorsenoTextEditor
             using (var connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
+
                 using (var command = new SQLiteCommand(query, connection))
                 {
-                    var reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
+                    using (var reader = command.ExecuteReader())
                     {
-                        reader.Read();
-                        queryResult = (string) reader[0];
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            queryResult = (string)reader[0];
+                        }
                     }
                 }
             }

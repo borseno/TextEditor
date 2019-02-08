@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
+using System.Diagnostics;
+using System.Threading;
 
 namespace BorsenoTextEditor
 {
@@ -35,7 +37,10 @@ namespace BorsenoTextEditor
                 using (var checkCMD = new SQLiteCommand(
                     $"Select id from {_tableName} where {_nameColumnName} = '{name}'", conn))
                 {
-                    nameExists = checkCMD.ExecuteReader().HasRows;
+                    using (var reader = checkCMD.ExecuteReader()) // bug fixes
+                    {
+                        nameExists = reader.HasRows; 
+                    }
                 }
 
                 string query;
@@ -71,14 +76,15 @@ namespace BorsenoTextEditor
 
                 using (var command = new SQLiteCommand(query, connection))
                 {
-                    var reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
+                    using (var reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.HasRows)
                         {
-                            string temp = _valueEncoding.GetString((byte[])reader[_valueColumnName]);
-                            value.AppendLine(temp);
+                            while (reader.Read())
+                            {
+                                string temp = _valueEncoding.GetString((byte[]) reader[_valueColumnName]);
+                                value.AppendLine(temp);
+                            }
                         }
                     }
                 }

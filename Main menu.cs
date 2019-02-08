@@ -16,10 +16,6 @@ namespace BorsenoTextEditor
         private readonly IFilePicker _filePicker;
         private readonly IFileManager _fileManager;
         private string _currentFileName;
-        private string _connectionString;
-        private string _tableName;
-        private string _valueColumnName;
-        private string _nameColumnName;
 
         private string CurrentFilePath
         {
@@ -31,16 +27,16 @@ namespace BorsenoTextEditor
         {
             InitializeComponent();
 
-            _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            _tableName = "binary_Files";
-            _valueColumnName = "binary_file";
-            _nameColumnName = "Name";
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            const string tableName = "binary_Files";
+            const string valueColumnName = "binary_file";
+            const string nameColumnName = "Name";
 
             openFileDialog1.DefaultExt = "txt";
             saveFileDialog1.DefaultExt = "txt";
 
-            _fileManager = new DBFileManager(_connectionString, _tableName, _valueColumnName, _nameColumnName);
-            _filePicker = new DBFilePicker(_connectionString, _tableName, _valueColumnName, _nameColumnName);
+            _fileManager = new DBFileManager(connectionString, tableName, valueColumnName, nameColumnName);
+            _filePicker = new DBFilePicker(connectionString, tableName, nameColumnName);
         }
 
         private void SaveText()

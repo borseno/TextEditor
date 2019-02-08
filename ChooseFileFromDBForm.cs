@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 
 namespace BorsenoTextEditor
 {
@@ -52,7 +53,7 @@ namespace BorsenoTextEditor
             }
         }
 
-        private void filesDBdataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        private void DataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             using (SolidBrush b = new SolidBrush(filesDBdataGridView.RowHeadersDefaultCellStyle.ForeColor))
             {
@@ -71,6 +72,7 @@ namespace BorsenoTextEditor
         private void OnShown(object sender, EventArgs e)
         {
             filesDBdataGridView.ClearSelection();
+            IsSelected = false;
         }
     }
 }
