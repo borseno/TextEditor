@@ -52,8 +52,9 @@
             // 
             // Input
             // 
+            this.Input.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.Input.Font = new System.Drawing.Font("Times New Roman", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Input.Location = new System.Drawing.Point(12, 84);
+            this.Input.Location = new System.Drawing.Point(12, 50);
             this.Input.Name = "Input";
             this.Input.Size = new System.Drawing.Size(972, 545);
             this.Input.TabIndex = 0;
@@ -64,7 +65,7 @@
             // 
             this.FileChoosing.Location = new System.Drawing.Point(12, 12);
             this.FileChoosing.Name = "FileChoosing";
-            this.FileChoosing.Size = new System.Drawing.Size(170, 56);
+            this.FileChoosing.Size = new System.Drawing.Size(120, 32);
             this.FileChoosing.TabIndex = 1;
             this.FileChoosing.Text = "Choose file to edit";
             this.FileChoosing.UseVisualStyleBackColor = true;
@@ -72,9 +73,9 @@
             // 
             // Clear
             // 
-            this.Clear.Location = new System.Drawing.Point(814, 12);
+            this.Clear.Location = new System.Drawing.Point(852, 12);
             this.Clear.Name = "Clear";
-            this.Clear.Size = new System.Drawing.Size(170, 56);
+            this.Clear.Size = new System.Drawing.Size(132, 32);
             this.Clear.TabIndex = 2;
             this.Clear.Text = "Clear";
             this.Clear.UseVisualStyleBackColor = true;
@@ -82,9 +83,9 @@
             // 
             // Save
             // 
-            this.Save.Location = new System.Drawing.Point(638, 12);
+            this.Save.Location = new System.Drawing.Point(714, 12);
             this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(170, 56);
+            this.Save.Size = new System.Drawing.Size(132, 32);
             this.Save.TabIndex = 3;
             this.Save.Text = "Save";
             this.Save.UseVisualStyleBackColor = true;
@@ -96,9 +97,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(188, 12);
+            this.button1.Location = new System.Drawing.Point(138, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(179, 56);
+            this.button1.Size = new System.Drawing.Size(123, 32);
             this.button1.TabIndex = 4;
             this.button1.Text = "Unchoose file (reset)";
             this.button1.UseVisualStyleBackColor = true;
@@ -106,16 +107,16 @@
             // 
             // CurrentFileNameValue
             // 
-            this.CurrentFileNameValue.Location = new System.Drawing.Point(373, 47);
+            this.CurrentFileNameValue.Location = new System.Drawing.Point(367, 19);
             this.CurrentFileNameValue.Name = "CurrentFileNameValue";
             this.CurrentFileNameValue.ReadOnly = true;
-            this.CurrentFileNameValue.Size = new System.Drawing.Size(259, 20);
+            this.CurrentFileNameValue.Size = new System.Drawing.Size(341, 20);
             this.CurrentFileNameValue.TabIndex = 5;
             // 
             // CurrentFileNameLabel
             // 
             this.CurrentFileNameLabel.AutoSize = true;
-            this.CurrentFileNameLabel.Location = new System.Drawing.Point(443, 22);
+            this.CurrentFileNameLabel.Location = new System.Drawing.Point(267, 22);
             this.CurrentFileNameLabel.Name = "CurrentFileNameLabel";
             this.CurrentFileNameLabel.Size = new System.Drawing.Size(94, 13);
             this.CurrentFileNameLabel.TabIndex = 6;
@@ -123,9 +124,9 @@
             // 
             // FileMode
             // 
-            this.FileMode.Location = new System.Drawing.Point(342, 708);
+            this.FileMode.Location = new System.Drawing.Point(12, 601);
             this.FileMode.Name = "FileMode";
-            this.FileMode.Size = new System.Drawing.Size(110, 39);
+            this.FileMode.Size = new System.Drawing.Size(108, 39);
             this.FileMode.TabIndex = 7;
             this.FileMode.Text = "Explorer mode";
             this.FileMode.UseVisualStyleBackColor = true;
@@ -133,9 +134,9 @@
             // 
             // ScreenMode
             // 
-            this.ScreenMode.Location = new System.Drawing.Point(500, 708);
+            this.ScreenMode.Location = new System.Drawing.Point(879, 601);
             this.ScreenMode.Name = "ScreenMode";
-            this.ScreenMode.Size = new System.Drawing.Size(112, 39);
+            this.ScreenMode.Size = new System.Drawing.Size(105, 39);
             this.ScreenMode.TabIndex = 8;
             this.ScreenMode.Text = "Night mode";
             this.ScreenMode.UseVisualStyleBackColor = true;
@@ -145,7 +146,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(998, 759);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(998, 649);
             this.Controls.Add(this.ScreenMode);
             this.Controls.Add(this.FileMode);
             this.Controls.Add(this.CurrentFileNameLabel);

@@ -21,6 +21,7 @@ namespace BorsenoTextEditor
         private IFilePicker _filePicker;
         private IFileManager _fileManager;
         private FileMode _fileMode;
+        bool darkenable;
 
         private string CurrentFilePath
         {
@@ -138,13 +139,20 @@ namespace BorsenoTextEditor
             CurrentFilePath = null;
         }
 
-        // TODO: Screen Mode (color) change
         private void ScreenMode_Click(object sender, EventArgs e)
-        {
-            bool isDark = ScreenMode.Text.StartsWith("Dark");
+        {        
+            if (darkenable == false)
+            {
+                this.BackColor = System.Drawing.Color.Black;
+                darkenable = true;
+            }
 
-            if (isDark)
-                this.BackColor = new Color();
+            else if (darkenable == true)
+            {
+                this.BackColor = System.Drawing.Color.White;
+                darkenable = false;
+                return;
+            }
         }
     }
 }
