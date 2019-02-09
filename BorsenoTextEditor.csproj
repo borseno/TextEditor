@@ -66,11 +66,11 @@
     <Compile Include="FileMode.cs" />
     <Compile Include="IFilePicker.cs" />
     <Compile Include="IFileManager.cs" />
-    <Compile Include="Main menu.cs">
+    <Compile Include="Mainmenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main menu.Designer.cs">
-      <DependentUpon>Main menu.cs</DependentUpon>
+    <Compile Include="Mainmenu.Designer.cs">
+      <DependentUpon>Mainmenu.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,8 +83,8 @@
     <EmbeddedResource Include="ChooseFileFromDBForm.resx">
       <DependentUpon>ChooseFileFromDBForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main menu.resx">
-      <DependentUpon>Main menu.cs</DependentUpon>
+    <EmbeddedResource Include="Mainmenu.resx">
+      <DependentUpon>Mainmenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
