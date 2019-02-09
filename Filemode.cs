@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BorsenoTextEditor
 {
-    enum FileMode
+    internal enum FileMode
     {
         Database,
         Explorer

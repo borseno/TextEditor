@@ -20,8 +20,8 @@ namespace BorsenoTextEditor
         private string _currentFileName;
         private IFilePicker _filePicker;
         private IFileManager _fileManager;
-        private FileMode _fileMode;
-        bool darkenable;
+        private FileMode? _fileMode = null;
+        bool _darkEnabled;
 
         private string CurrentFilePath
         {
@@ -32,10 +32,6 @@ namespace BorsenoTextEditor
         public MainForm()
         {
             InitializeComponent();
-
-            _tableName = "binary_Files";
-            _valueColumnName = "binary_file";
-            _nameColumnName = "Name";
 
             openFileDialog1.DefaultExt = "txt";
             saveFileDialog1.DefaultExt = "txt";
@@ -140,18 +136,20 @@ namespace BorsenoTextEditor
         }
 
         private void ScreenMode_Click(object sender, EventArgs e)
-        {        
-            if (darkenable == false)
+        {
+            this.ScreenMode.Text = this.BackColor.Name + " mode";
+
+            if (_darkEnabled == false)
             {
                 this.BackColor = System.Drawing.Color.Black;
-                darkenable = true;
+                this.CurrentFileNameLabel.ForeColor = System.Drawing.Color.DarkGreen;
+                _darkEnabled = true;
             }
-
-            else if (darkenable == true)
+            else
             {
                 this.BackColor = System.Drawing.Color.White;
-                darkenable = false;
-                return;
+                _darkEnabled = false;
+                
             }
         }
     }

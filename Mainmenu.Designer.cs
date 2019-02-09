@@ -43,7 +43,7 @@
             this.Save = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
+            this.resetFileName = new System.Windows.Forms.Button();
             this.CurrentFileNameValue = new System.Windows.Forms.TextBox();
             this.CurrentFileNameLabel = new System.Windows.Forms.Label();
             this.FileMode = new System.Windows.Forms.Button();
@@ -95,15 +95,15 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button1
+            // resetFileName
             // 
-            this.button1.Location = new System.Drawing.Point(138, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(123, 32);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Unchoose file (reset)";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.ResetCurrentFileName);
+            this.resetFileName.Location = new System.Drawing.Point(138, 12);
+            this.resetFileName.Name = "resetFileName";
+            this.resetFileName.Size = new System.Drawing.Size(123, 32);
+            this.resetFileName.TabIndex = 4;
+            this.resetFileName.Text = "Unchoose file (reset)";
+            this.resetFileName.UseVisualStyleBackColor = true;
+            this.resetFileName.Click += new System.EventHandler(this.ResetCurrentFileName);
             // 
             // CurrentFileNameValue
             // 
@@ -152,7 +152,7 @@
             this.Controls.Add(this.FileMode);
             this.Controls.Add(this.CurrentFileNameLabel);
             this.Controls.Add(this.CurrentFileNameValue);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.resetFileName);
             this.Controls.Add(this.Save);
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.FileChoosing);
@@ -172,7 +172,7 @@
         private System.Windows.Forms.Button Save;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button resetFileName;
         private System.Windows.Forms.TextBox CurrentFileNameValue;
         private System.Windows.Forms.Label CurrentFileNameLabel;
         private System.Windows.Forms.Button FileMode;
