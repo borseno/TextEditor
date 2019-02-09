@@ -20,7 +20,7 @@ namespace BorsenoTextEditor
             byte[] result = fileEncoding.GetBytes(value);
 
             File.WriteAllText(path, String.Empty);
-            using (var fileStream = File.Open(path, FileMode.Open))
+            using (var fileStream = File.Open(path, System.IO.FileMode.Open))
             {
                 fileStream.Seek(0, SeekOrigin.End);
                 fileStream.Write(result, 0, result.Length);

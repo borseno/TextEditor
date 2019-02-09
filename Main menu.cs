@@ -13,9 +13,14 @@ namespace BorsenoTextEditor
 {
     public partial class MainForm : Form
     {
-        private readonly IFilePicker _filePicker;
-        private readonly IFileManager _fileManager;
+        private readonly string _tableName = "binary_Files";
+        private readonly string _valueColumnName = "binary_file";
+        private readonly string _nameColumnName = "Name";
+        private readonly string _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         private string _currentFileName;
+        private IFilePicker _filePicker;
+        private IFileManager _fileManager;
+        private FileMode _fileMode;
 
         private string CurrentFilePath
         {
@@ -27,16 +32,14 @@ namespace BorsenoTextEditor
         {
             InitializeComponent();
 
-            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            const string tableName = "binary_Files";
-            const string valueColumnName = "binary_file";
-            const string nameColumnName = "Name";
+            _tableName = "binary_Files";
+            _valueColumnName = "binary_file";
+            _nameColumnName = "Name";
 
             openFileDialog1.DefaultExt = "txt";
             saveFileDialog1.DefaultExt = "txt";
 
-            _fileManager = new DBFileManager(connectionString, tableName, valueColumnName, nameColumnName);
-            _filePicker = new DBFilePicker(connectionString, tableName, nameColumnName);
+            ChangeFileMode(BorsenoTextEditor.FileMode.Database);
         }
 
         private void SaveText()
@@ -50,6 +53,24 @@ namespace BorsenoTextEditor
                 if (!String.IsNullOrEmpty(CurrentFilePath))
                     _fileManager.Save(CurrentFilePath, Input.Text);
             }
+        }
+
+        private void ChangeFileMode(FileMode mode)
+        {
+            if (_fileMode == mode)
+                return;
+
+            if (mode == BorsenoTextEditor.FileMode.Database)
+            {
+                _fileManager = new DBFileManager(_connectionString, _tableName, _valueColumnName, _nameColumnName);
+                _filePicker = new DBFilePicker(_connectionString, _tableName, _nameColumnName);
+            }
+            else if (mode == BorsenoTextEditor.FileMode.Explorer)
+            {
+                _fileManager = new ExplorerFileManager();
+                _filePicker = new ExplorerFilePicker(save: saveFileDialog1, open: openFileDialog1);
+            }
+            _fileMode = mode;
         }
 
         private void OpenFile()
@@ -99,6 +120,31 @@ namespace BorsenoTextEditor
                 e.IsInputKey = true;
             if (e.KeyData == (Keys.Control | Keys.S))
                 SaveText();
+        }
+
+        private void FileMode_Click(object sender, EventArgs e)
+        {
+            string buttonText = _fileMode.ToString() + " mode";
+            FileMode.Text = buttonText;
+
+            if (_fileMode == BorsenoTextEditor.FileMode.Database)
+            {
+                ChangeFileMode(BorsenoTextEditor.FileMode.Explorer);
+            }
+            else if (_fileMode == BorsenoTextEditor.FileMode.Explorer)
+            {
+                ChangeFileMode(BorsenoTextEditor.FileMode.Database);
+            }
+            CurrentFilePath = null;
+        }
+
+        // TODO: Screen Mode (color) change
+        private void ScreenMode_Click(object sender, EventArgs e)
+        {
+            bool isDark = ScreenMode.Text.StartsWith("Dark");
+
+            if (isDark)
+                this.BackColor = new Color();
         }
     }
 }

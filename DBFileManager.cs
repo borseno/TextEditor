@@ -41,6 +41,7 @@ namespace BorsenoTextEditor
                     {
                         nameExists = reader.HasRows; 
                     }
+                    // nameExists = checkCMD.ExecuteReader().HasRows; <--- bilo tak (facepalm) 
                 }
 
                 string query;

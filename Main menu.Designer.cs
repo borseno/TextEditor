@@ -46,6 +46,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.CurrentFileNameValue = new System.Windows.Forms.TextBox();
             this.CurrentFileNameLabel = new System.Windows.Forms.Label();
+            this.FileMode = new System.Windows.Forms.Button();
+            this.ScreenMode = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Input
@@ -119,11 +121,33 @@
             this.CurrentFileNameLabel.TabIndex = 6;
             this.CurrentFileNameLabel.Text = "Current File Name:";
             // 
+            // FileMode
+            // 
+            this.FileMode.Location = new System.Drawing.Point(342, 708);
+            this.FileMode.Name = "FileMode";
+            this.FileMode.Size = new System.Drawing.Size(110, 39);
+            this.FileMode.TabIndex = 7;
+            this.FileMode.Text = "Explorer mode";
+            this.FileMode.UseVisualStyleBackColor = true;
+            this.FileMode.Click += new System.EventHandler(this.FileMode_Click);
+            // 
+            // ScreenMode
+            // 
+            this.ScreenMode.Location = new System.Drawing.Point(500, 708);
+            this.ScreenMode.Name = "ScreenMode";
+            this.ScreenMode.Size = new System.Drawing.Size(112, 39);
+            this.ScreenMode.TabIndex = 8;
+            this.ScreenMode.Text = "Night mode";
+            this.ScreenMode.UseVisualStyleBackColor = true;
+            this.ScreenMode.Click += new System.EventHandler(this.ScreenMode_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(996, 632);
+            this.ClientSize = new System.Drawing.Size(998, 759);
+            this.Controls.Add(this.ScreenMode);
+            this.Controls.Add(this.FileMode);
             this.Controls.Add(this.CurrentFileNameLabel);
             this.Controls.Add(this.CurrentFileNameValue);
             this.Controls.Add(this.button1);
@@ -149,6 +173,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox CurrentFileNameValue;
         private System.Windows.Forms.Label CurrentFileNameLabel;
+        private System.Windows.Forms.Button FileMode;
+        private System.Windows.Forms.Button ScreenMode;
     }
 }
 

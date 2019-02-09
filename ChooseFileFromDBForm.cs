@@ -12,7 +12,10 @@ namespace BorsenoTextEditor
         private readonly string _tableName;
         private readonly string _nameColumnName;
 
-        public bool IsSelected { get; private set; } = false;
+        public bool IsSelected
+        {
+            get { return filesDBdataGridView.SelectedCells.Count > 0; }
+        }
 
         public string SelectedFileName
         {
@@ -32,7 +35,7 @@ namespace BorsenoTextEditor
             _nameColumnName = nameColumnName;
         }
 
-        private void OnLoad(object sender, EventArgs e)
+        private void LoadTable()
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -46,6 +49,14 @@ namespace BorsenoTextEditor
             }
         }
 
+        private void ClearCellsSelection() => filesDBdataGridView.ClearSelection();
+
+        private void OnLoad(object sender, EventArgs e)
+        {
+            LoadTable();
+        }
+
+        // Adds index for the table (new index, not from database)
         private void DataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             using (SolidBrush b = new SolidBrush(filesDBdataGridView.RowHeadersDefaultCellStyle.ForeColor))
@@ -54,18 +65,30 @@ namespace BorsenoTextEditor
             }
         }
 
-        private void OnOk(object sender, EventArgs e)
-        {
-            if (filesDBdataGridView.SelectedCells.Count > 0)
-            {
-                IsSelected = true;
-            }
-        }
-
         private void OnShown(object sender, EventArgs e)
         {
-            filesDBdataGridView.ClearSelection();
-            IsSelected = false;
+            ClearCellsSelection();
+        }
+
+        private void OnDelete(object sender, EventArgs e)
+        {
+            if (IsSelected)
+            {
+                using (var connection = new SQLiteConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    string query = $"delete from {_tableName} where {_nameColumnName} = '{SelectedFileName}'";
+
+                    using (var command = new SQLiteCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                LoadTable();
+                ClearCellsSelection();
+            }
         }
     }
 }

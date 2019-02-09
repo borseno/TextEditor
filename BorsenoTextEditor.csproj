@@ -63,6 +63,7 @@
     <Compile Include="ExplorerFilePicker.cs" />
     <Compile Include="ExplorerFileManager.cs" />
     <Compile Include="EncodingHelper.cs" />
+    <Compile Include="FileMode.cs" />
     <Compile Include="IFilePicker.cs" />
     <Compile Include="IFileManager.cs" />
     <Compile Include="Main menu.cs">

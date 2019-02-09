@@ -12,13 +12,11 @@ namespace BorsenoTextEditor
 {
     public partial class SaveAsForm : Form
     {
-        bool _isOKPressed = false;
-
         public string FileName
         {
             get
             {
-                if (_isOKPressed && !String.IsNullOrEmpty(input.Text))
+                if (!String.IsNullOrEmpty(input.Text))
                     return input.Text;
                 return null;
             }
@@ -27,11 +25,6 @@ namespace BorsenoTextEditor
         public SaveAsForm()
         {
             InitializeComponent();
-        }
-
-        private void OnOk(object sender, EventArgs e)
-        {
-            _isOKPressed = true;
         }
     }
 }
