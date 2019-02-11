@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace BorsenoTextEditor
 {
@@ -26,8 +29,10 @@ namespace BorsenoTextEditor
         private string CurrentFilePath
         {
             get => _currentFileName;
-            set => _currentFileName = CurrentFileNameValue.Text = value;
+            set => CurrentFileNameValue.Text = _currentFileName = value;
         }
+
+        private string CurrentFileExtension => CurrentFilePath != null ? new FileInfo(CurrentFilePath).Extension : null;
 
         public MainForm()
         {
@@ -86,12 +91,30 @@ namespace BorsenoTextEditor
                 CurrentFilePath = filename;
         }
 
+        private void ResetTextBoxColors()
+        {
+            Input.ForeColor = Color.Black;
+
+            int selectionStart = Input.SelectionStart;
+            int selectionLength = Input.SelectionLength;
+
+            Input.SelectAll();
+            Input.SelectionColor = Color.Black;
+            Input.DeselectAll();
+
+            Input.SelectionStart = selectionStart;
+            Input.SelectionLength = selectionLength;
+        }
+
         private void OnFileChoosing(object sender, EventArgs e)
         {
             OpenFile();
 
             if (!String.IsNullOrEmpty(CurrentFilePath))
+            {
+                ResetTextBoxColors();
                 _fileManager.Load(CurrentFilePath, Input);
+            }
         }
 
         private void OnSaving(object sender, EventArgs e)
@@ -119,9 +142,43 @@ namespace BorsenoTextEditor
                 SaveText();
         }
 
+        private void HighlightSyntax(string syntax)
+        {
+            if (syntax == ".xml")
+            {
+                Input.BeginUpdate();
+                int lastIndex = Input.SelectionStart;
+                int lastLength = Input.SelectionLength;
+
+                Input.SelectAll();
+
+                Regex regex = new Regex(@"<\/?[^>\/]*>");
+                MatchCollection matches = regex.Matches(Input.Text);
+
+                if (matches.Count > 0)
+                {
+                    foreach (Match m in matches)
+                    {
+                        int selectionStart = Input.SelectionStart;
+
+                        Input.Select(m.Index, m.Length);
+                        Input.SelectionColor = Color.ForestGreen;
+
+                        Input.DeselectAll();
+                        Input.SelectionStart = selectionStart;
+                        Input.SelectionLength = 0;
+                    }
+                }
+                Input.Select(lastIndex, lastLength);
+                Input.SelectionColor = Color.Black;
+
+                Input.EndUpdate();
+            }
+        }
+
         private void FileMode_Click(object sender, EventArgs e)
         {
-            string buttonText = _fileMode.ToString() + " mode";
+            string buttonText = _fileMode + " mode";
             FileMode.Text = buttonText;
 
             if (_fileMode == BorsenoTextEditor.FileMode.Database)
@@ -150,6 +207,21 @@ namespace BorsenoTextEditor
                 this.BackColor = System.Drawing.Color.White;
                 _darkEnabled = false;            
             }
+        }
+
+        private void Input_TextChanged(object sender, EventArgs e)
+        {
+            if (CurrentFileExtension.In(".json", ".xml"))
+            {
+                HighlightSyntax(CurrentFileExtension);
+            }
+        }
+
+        private void Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (CurrentFileExtension.In(".json", ".xml"))
+                if (e.KeyData == (Keys.Control | Keys.Z))
+                    e.Handled = true;
         }
     }
 }

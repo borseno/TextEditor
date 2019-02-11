@@ -64,6 +64,9 @@
     <Compile Include="ExplorerFileManager.cs" />
     <Compile Include="EncodingHelper.cs" />
     <Compile Include="FileMode.cs" />
+    <Compile Include="HighlightSupportRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="IFilePicker.cs" />
     <Compile Include="IFileManager.cs" />
     <Compile Include="Mainmenu.cs">
@@ -80,6 +83,7 @@
     <Compile Include="SaveAsForm.Designer.cs">
       <DependentUpon>SaveAsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StringExtension.cs" />
     <EmbeddedResource Include="ChooseFileFromDBForm.resx">
       <DependentUpon>ChooseFileFromDBForm.cs</DependentUpon>
     </EmbeddedResource>

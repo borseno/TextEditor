@@ -1,21 +1,5 @@
 ﻿namespace BorsenoTextEditor
 {
-    /*
-Реализовать текстовый редактор с возможностью сохранения/загрузки файлов в/из БД.
-В качестве БД использовать SQLite.
-
-Условия выполнения задания:
-- Настройки подключения к базе в файле конфигурации приложения
-- Реализовать возможность загрузки файла из БД
-- Реализовать возможность загрузки файла в БД
-- Разработать форму ввода имени файла для сохранения
-- Разработать форму выбора файла для загрузки
-
-Дополнительные задания:
-- Загрузка файла из базы и сохранение в базу асинхронно
-- Обеспечить сжатие информации при хранении в БД средством любой ThirdParty библиотеки
-- Для форматов json и xml обеспечить подсветку синтаксиса и форматирование
-*/
     partial class MainForm
     {
         private System.ComponentModel.IContainer components = null;
@@ -37,7 +21,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Input = new System.Windows.Forms.RichTextBox();
             this.FileChoosing = new System.Windows.Forms.Button();
             this.Clear = new System.Windows.Forms.Button();
             this.Save = new System.Windows.Forms.Button();
@@ -48,18 +31,8 @@
             this.CurrentFileNameLabel = new System.Windows.Forms.Label();
             this.FileMode = new System.Windows.Forms.Button();
             this.ScreenMode = new System.Windows.Forms.Button();
+            this.Input = new BorsenoTextEditor.HighlightSupportRichTextBox();
             this.SuspendLayout();
-            // 
-            // Input
-            // 
-            this.Input.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.Input.Font = new System.Drawing.Font("Times New Roman", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Input.Location = new System.Drawing.Point(12, 50);
-            this.Input.Name = "Input";
-            this.Input.Size = new System.Drawing.Size(972, 545);
-            this.Input.TabIndex = 0;
-            this.Input.Text = "";
-            this.Input.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.InputPreviewKeyDown);
             // 
             // FileChoosing
             // 
@@ -142,6 +115,19 @@
             this.ScreenMode.UseVisualStyleBackColor = true;
             this.ScreenMode.Click += new System.EventHandler(this.ScreenMode_Click);
             // 
+            // Input
+            // 
+            this.Input.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.Input.Font = new System.Drawing.Font("Times New Roman", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Input.Location = new System.Drawing.Point(12, 50);
+            this.Input.Name = "Input";
+            this.Input.Size = new System.Drawing.Size(972, 545);
+            this.Input.TabIndex = 0;
+            this.Input.Text = "";
+            this.Input.TextChanged += new System.EventHandler(this.Input_TextChanged);
+            this.Input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Input_KeyDown);
+            this.Input.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.InputPreviewKeyDown);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -166,7 +152,7 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox Input;
+        private HighlightSupportRichTextBox Input;
         private System.Windows.Forms.Button FileChoosing;
         private System.Windows.Forms.Button Clear;
         private System.Windows.Forms.Button Save;
