@@ -148,8 +148,7 @@ namespace BorsenoTextEditor
             else
             {
                 this.BackColor = System.Drawing.Color.White;
-                _darkEnabled = false;
-                
+                _darkEnabled = false;            
             }
         }
     }
