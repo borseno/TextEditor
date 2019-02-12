@@ -30,7 +30,7 @@ namespace BorsenoTextEditor
         public void Load(string path, TextBoxBase into)
         {
             into.Clear();
-            using (var fileStream = new StreamReader(path, Encoding.Default, true))
+            using (var fileStream = new StreamReader(path, true))
             {
                 string value = fileStream.ReadToEnd();
                 into.Text = value;

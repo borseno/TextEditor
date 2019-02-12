@@ -144,15 +144,27 @@ namespace BorsenoTextEditor
 
         private void HighlightSyntax(string syntax)
         {
-            if (syntax == ".xml")
+            Regex regex = null;
+
+            switch (syntax)
             {
+                case ".xml":
+                    regex = new Regex(@"<\/?[^>\/]*>");
+                    break;
+                case ".json":
+                    regex = new Regex(@"{.*}");
+                    break;
+            }
+
+            if (regex != null)
+            {
+
                 Input.BeginUpdate();
                 int lastIndex = Input.SelectionStart;
                 int lastLength = Input.SelectionLength;
 
                 Input.SelectAll();
 
-                Regex regex = new Regex(@"<\/?[^>\/]*>");
                 MatchCollection matches = regex.Matches(Input.Text);
 
                 if (matches.Count > 0)
@@ -169,6 +181,7 @@ namespace BorsenoTextEditor
                         Input.SelectionLength = 0;
                     }
                 }
+
                 Input.Select(lastIndex, lastLength);
                 Input.SelectionColor = Color.Black;
 
@@ -205,7 +218,7 @@ namespace BorsenoTextEditor
             else
             {
                 this.BackColor = System.Drawing.Color.White;
-                _darkEnabled = false;            
+                _darkEnabled = false;
             }
         }
 

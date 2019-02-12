@@ -53,7 +53,7 @@ namespace BorsenoTextEditor
         {
             if (File.Exists(filename))
             {
-                using (var fileStream = new StreamReader(filename, Encoding.Default, true))
+                using (var fileStream = new StreamReader(filename, true))
                 {
                     return fileStream.CurrentEncoding;
                 }

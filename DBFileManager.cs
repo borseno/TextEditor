@@ -35,30 +35,33 @@ namespace BorsenoTextEditor
 
                 bool nameExists;
                 using (var checkCMD = new SQLiteCommand(
-                    $"Select id from {_tableName} where {_nameColumnName} = '{name}'", conn))
+                    $"Select id from {_tableName} where {_nameColumnName} = @name", conn))
                 {
-                    using (var reader = checkCMD.ExecuteReader()) // bug fixes
+                    checkCMD.Parameters.Add(new SQLiteParameter("@name", name));
+
+                    using (var reader = checkCMD.ExecuteReader())
                     {
-                        nameExists = reader.HasRows; 
+                        nameExists = reader.HasRows;
                     }
-                    // nameExists = checkCMD.ExecuteReader().HasRows; <--- bilo tak (facepalm) 
                 }
 
-                string query;
-                if (nameExists)
+                using (var cmd = new SQLiteCommand(conn))
                 {
-                    query = $"Update {_tableName} " +
-                                   $"set {_valueColumnName} = '{value}' " +
-                                   $"where {_nameColumnName} = '{name}'";
-                }
-                else
-                {
-                    query = $"Insert into {_tableName}({_valueColumnName}, {_nameColumnName}) " +
-                            $"values ('{value}', '{name}')";
-                }
+                    if (nameExists)
+                    {
+                        cmd.CommandText = $"Update {_tableName} " +
+                                $"set {_valueColumnName} = @value " +
+                                $"where {_nameColumnName} = @name";
+                    }
+                    else
+                    {
+                        cmd.CommandText = $"Insert into {_tableName}({_valueColumnName}, {_nameColumnName}) " +
+                                $"values (@value, @name)";
+                    }
 
-                using (var cmd = new SQLiteCommand(query, conn))
-                {
+                    cmd.Parameters.Add(new SQLiteParameter("@value", value));
+                    cmd.Parameters.Add(new SQLiteParameter("@name", name));
+
                     cmd.ExecuteNonQuery();
                 }
             }
