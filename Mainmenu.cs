@@ -151,41 +151,62 @@ namespace BorsenoTextEditor
                 case ".xml":
                     regex = new Regex(@"<\/?[^>\/]*>");
                     break;
-                case ".json":
-                    regex = new Regex(@"{.*}");
-                    break;
             }
 
             if (regex != null)
             {
-
                 Input.BeginUpdate();
+
                 int lastIndex = Input.SelectionStart;
                 int lastLength = Input.SelectionLength;
 
                 Input.SelectAll();
 
-                MatchCollection matches = regex.Matches(Input.Text);
-
-                if (matches.Count > 0)
+                var matches = regex.Matches(Input.Text).Cast<Match>().ToArray();
+                if (matches.Length > 0)
                 {
-                    foreach (Match m in matches)
+                    Color color = Color.ForestGreen;
+                    int wordsPerTask = 500;
+                    int tasksAmount = (matches.Length / wordsPerTask) + 1;
+                    int start = 0;
+                    int end = matches.Length - 1;
+
+                    Task[] tasks = new Task[tasksAmount];
+                    for (int i = 0; i < tasksAmount; i++)
                     {
-                        int selectionStart = Input.SelectionStart;
+                        start = matches.Length / tasksAmount * i;
+                        end = matches.Length / tasksAmount * (i + 1) - 1;
 
-                        Input.Select(m.Index, m.Length);
-                        Input.SelectionColor = Color.ForestGreen;
-
-                        Input.DeselectAll();
-                        Input.SelectionStart = selectionStart;
-                        Input.SelectionLength = 0;
+                        var start1 = start;
+                        var end1 = end;
+                        tasks[i] = Task.Run(() => { SelectMatchesInArr(matches, start, end, color); } );
                     }
+
+                    if (matches.Length - 1 - end > 0)
+                        SelectMatchesInArr(matches, end + 1, matches.Length - 1, color);
+
+                    Task.WaitAll(tasks);
                 }
 
                 Input.Select(lastIndex, lastLength);
                 Input.SelectionColor = Color.Black;
 
                 Input.EndUpdate();
+            }
+        }
+
+        private void SelectMatchesInArr(Match[] matches, int startIndex, int endIndex, Color color)
+        {
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                int selectionStart = Input.SelectionStart;
+
+                Input.Select(matches[i].Index, matches[i].Length);
+                Input.SelectionColor = color;
+
+                Input.DeselectAll();
+                Input.SelectionStart = selectionStart;
+                Input.SelectionLength = 0;
             }
         }
 
