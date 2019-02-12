@@ -101,6 +101,7 @@ namespace BorsenoTextEditor
             this.Controls.Add(this.SelectButton);
             this.Controls.Add(this.tableDescription);
             this.Controls.Add(this.filesDBdataGridView);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ChooseFileFromDBForm";
             this.Text = "ChooseFileFromDBForm";
             this.Load += new System.EventHandler(this.OnLoad);

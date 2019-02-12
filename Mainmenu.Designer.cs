@@ -143,8 +143,9 @@
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.FileChoosing);
             this.Controls.Add(this.Input);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Borseno Text Editor";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -83,6 +83,7 @@
             this.Controls.Add(this.OK);
             this.Controls.Add(this.input);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "SaveAsForm";
             this.Text = "SaveAs";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.input_KeyDown);
