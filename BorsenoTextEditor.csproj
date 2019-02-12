@@ -37,6 +37,9 @@
   <PropertyGroup>
     <ApplicationIcon>Apps-text-editor-icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>BorsenoTextEditor.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
