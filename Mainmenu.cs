@@ -94,6 +94,8 @@ namespace BorsenoTextEditor
 
         private void ResetTextBoxColors()
         {
+            Input.BeginUpdate();
+
             Input.ForeColor = Color.Black;
 
             int selectionStart = Input.SelectionStart;
@@ -105,6 +107,8 @@ namespace BorsenoTextEditor
 
             Input.SelectionStart = selectionStart;
             Input.SelectionLength = selectionLength;
+
+            Input.EndUpdate();
         }
 
         private void OnFileChoosing(object sender, EventArgs e)
@@ -156,6 +160,8 @@ namespace BorsenoTextEditor
 
             if (regex != null)
             {
+                ResetTextBoxColors();
+
                 Input.BeginUpdate();
 
                 int lastIndex = Input.SelectionStart;
@@ -170,7 +176,7 @@ namespace BorsenoTextEditor
                     int start = 0;
                     int end = matches.Length - 1;
 
-                    SelectMatchesInArr(matches, start, end, color);
+                    SelectMatchesFromArr(matches, start, end, color);
                 }
 
                 Input.Select(lastIndex, lastLength);
@@ -180,7 +186,7 @@ namespace BorsenoTextEditor
             }
         }
 
-        private void SelectMatchesInArr(Match[] matches, int startIndex, int endIndex, Color color)
+        private void SelectMatchesFromArr(Match[] matches, int startIndex, int endIndex, Color color)
         {
             for (int i = startIndex; i <= endIndex; i++)
             {
