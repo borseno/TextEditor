@@ -90,5 +90,24 @@ namespace BorsenoTextEditor
                 ClearCellsSelection();
             }
         }
+
+        private void ChooseFileFromDBForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Delete)
+            {
+                e.Handled = true;
+                Delete.PerformClick();
+            }
+            else if (e.KeyData == Keys.Escape)
+            {
+                e.Handled = true;
+                Cancel.PerformClick();
+            }
+            else if (e.KeyData == Keys.Enter)
+            {
+                e.Handled = true;
+                SelectButton.PerformClick();
+            }
+        }
     }
 }

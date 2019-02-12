@@ -52,6 +52,7 @@
             this.input.Name = "input";
             this.input.Size = new System.Drawing.Size(335, 20);
             this.input.TabIndex = 1;
+            this.input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.input_KeyDown);
             // 
             // OK
             // 
@@ -84,6 +85,7 @@
             this.Controls.Add(this.label1);
             this.Name = "SaveAsForm";
             this.Text = "SaveAs";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.input_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

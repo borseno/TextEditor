@@ -16,6 +16,7 @@ namespace BorsenoTextEditor
 {
     public partial class MainForm : Form
     {
+        private object _locker = new object();
         private readonly string _tableName = "binary_Files";
         private readonly string _valueColumnName = "binary_file";
         private readonly string _nameColumnName = "Name";
@@ -166,26 +167,10 @@ namespace BorsenoTextEditor
                 if (matches.Length > 0)
                 {
                     Color color = Color.ForestGreen;
-                    int wordsPerTask = 500;
-                    int tasksAmount = (matches.Length / wordsPerTask) + 1;
                     int start = 0;
                     int end = matches.Length - 1;
 
-                    Task[] tasks = new Task[tasksAmount];
-                    for (int i = 0; i < tasksAmount; i++)
-                    {
-                        start = matches.Length / tasksAmount * i;
-                        end = matches.Length / tasksAmount * (i + 1) - 1;
-
-                        var start1 = start;
-                        var end1 = end;
-                        tasks[i] = Task.Run(() => { SelectMatchesInArr(matches, start, end, color); } );
-                    }
-
-                    if (matches.Length - 1 - end > 0)
-                        SelectMatchesInArr(matches, end + 1, matches.Length - 1, color);
-
-                    Task.WaitAll(tasks);
+                    SelectMatchesInArr(matches, start, end, color);
                 }
 
                 Input.Select(lastIndex, lastLength);

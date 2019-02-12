@@ -50,6 +50,7 @@ namespace BorsenoTextEditor
             this.filesDBdataGridView.Size = new System.Drawing.Size(258, 340);
             this.filesDBdataGridView.TabIndex = 0;
             this.filesDBdataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DataGridView_RowPostPaint);
+            this.filesDBdataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChooseFileFromDBForm_KeyDown);
             // 
             // tableDescription
             // 
@@ -104,6 +105,7 @@ namespace BorsenoTextEditor
             this.Text = "ChooseFileFromDBForm";
             this.Load += new System.EventHandler(this.OnLoad);
             this.Shown += new System.EventHandler(this.OnShown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChooseFileFromDBForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.filesDBdataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

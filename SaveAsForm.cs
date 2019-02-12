@@ -26,5 +26,19 @@ namespace BorsenoTextEditor
         {
             InitializeComponent();
         }
+
+        private void input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Escape)
+            {
+                e.Handled = true;
+                Cancel.PerformClick();
+            }
+            else if (e.KeyData == Keys.Enter)
+            {
+                e.Handled = true;
+                OK.PerformClick();
+            }
+        }
     }
 }
