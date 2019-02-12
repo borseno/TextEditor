@@ -18,15 +18,13 @@ namespace BorsenoTextEditor
             _open = open;
         }
 
-        // returns filename
         public string GetFile()
         {
             DialogResult dialogResult = _open.ShowDialog();
 
             if (dialogResult == DialogResult.OK)
                 return _open.FileName;
-            else
-                return null;
+            return null;
         }
 
         public string GetOrCreateFile()
@@ -35,8 +33,7 @@ namespace BorsenoTextEditor
 
             if (dialogResult == DialogResult.OK)
                 return _save.FileName;
-            else
-                return null;
+            return null;
         }
 
     }

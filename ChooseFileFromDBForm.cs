@@ -12,10 +12,7 @@ namespace BorsenoTextEditor
         private readonly string _tableName;
         private readonly string _nameColumnName;
 
-        public bool IsSelected
-        {
-            get { return filesDBdataGridView.SelectedCells.Count > 0; }
-        }
+        public bool IsSelected => filesDBdataGridView.SelectedCells.Count > 0;
 
         public string SelectedFileName
         {
@@ -42,7 +39,8 @@ namespace BorsenoTextEditor
                 connection.Open();
 
                 SQLiteDataAdapter dataAdapter =
-                    new SQLiteDataAdapter($"Select {_nameColumnName} from {_tableName}", connection);
+                    new SQLiteDataAdapter($"Select {_nameColumnName} " +
+                                          $"from {_tableName}", connection);
                 DataSet dataSet = new DataSet();
                 dataAdapter.Fill(dataSet);
                 filesDBdataGridView.DataSource = dataSet.Tables[0];
@@ -61,7 +59,12 @@ namespace BorsenoTextEditor
         {
             using (SolidBrush b = new SolidBrush(filesDBdataGridView.RowHeadersDefaultCellStyle.ForeColor))
             {
-                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 10, e.RowBounds.Location.Y + 4);
+                e.Graphics.DrawString(
+                    (e.RowIndex + 1).ToString(),
+                    e.InheritedRowStyle.Font,
+                    b,
+                    e.RowBounds.Location.X + 10,
+                    e.RowBounds.Location.Y + 4);
             }
         }
 
@@ -78,10 +81,13 @@ namespace BorsenoTextEditor
                 {
                     connection.Open();
 
-                    string query = $"delete from {_tableName} where {_nameColumnName} = '{SelectedFileName}'";
+                    string query = $"delete from {_tableName} " +
+                                   $"where {_nameColumnName} = @SelectedFileName";
 
                     using (var command = new SQLiteCommand(query, connection))
                     {
+                        command.Parameters.Add(new SQLiteParameter("@SelectedFileName", SelectedFileName));
+
                         command.ExecuteNonQuery();
                     }
                 }

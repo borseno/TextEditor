@@ -18,9 +18,8 @@ namespace BorsenoTextEditor
         {
             _chooseForm.ShowDialog();
             if (_chooseForm.DialogResult == DialogResult.OK)
-                return _chooseForm.SelectedFileName;
-            else
-                return null;
+                return _chooseForm.SelectedFileName;   
+            return null;
         }
 
         public string GetOrCreateFile()
@@ -29,8 +28,7 @@ namespace BorsenoTextEditor
 
             if (_saveAsForm.DialogResult == DialogResult.OK)
                 return _saveAsForm.FileName;
-            else
-                return null;
+            return null;
         }
     }
 }

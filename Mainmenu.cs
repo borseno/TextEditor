@@ -16,7 +16,6 @@ namespace BorsenoTextEditor
 {
     public partial class MainForm : Form
     {
-        private object _locker = new object();
         private readonly string _tableName = "binary_Files";
         private readonly string _valueColumnName = "binary_file";
         private readonly string _nameColumnName = "Name";
@@ -24,7 +23,7 @@ namespace BorsenoTextEditor
         private string _currentFileName;
         private IFilePicker _filePicker;
         private IFileManager _fileManager;
-        private FileMode? _fileMode = null;
+        private FileMode? _fileMode;
         bool _darkEnabled;
 
         private string CurrentFilePath
@@ -111,6 +110,52 @@ namespace BorsenoTextEditor
             Input.EndUpdate();
         }
 
+        private void HighlightSyntax(Regex regex)
+        {
+            if (regex != null)
+            {
+                ResetTextBoxColors();
+
+                Input.BeginUpdate();
+
+                int lastIndex = Input.SelectionStart;
+                int lastLength = Input.SelectionLength;
+
+                Input.SelectAll();
+
+                Match[] matches = regex.Matches(Input.Text).Cast<Match>().ToArray();
+
+                if (matches.Length > 0)
+                {
+                    Color color = Color.ForestGreen;
+                    int start = 0;
+                    int end = matches.Length - 1;
+
+                    SelectMatchesFromArr(matches, start, end, color);
+                }
+
+                Input.Select(lastIndex, lastLength);
+                Input.SelectionColor = Color.Black;
+
+                Input.EndUpdate();
+            }
+        }
+
+        private void SelectMatchesFromArr(Match[] matches, int startIndex, int endIndex, Color color)
+        {
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                int selectionStart = Input.SelectionStart;
+
+                Input.Select(matches[i].Index, matches[i].Length);
+                Input.SelectionColor = color;
+
+                Input.DeselectAll();
+                Input.SelectionStart = selectionStart;
+                Input.SelectionLength = 0;
+            }
+        }
+
         private void OnFileChoosing(object sender, EventArgs e)
         {
             OpenFile();
@@ -147,60 +192,6 @@ namespace BorsenoTextEditor
                 SaveText();
         }
 
-        private void HighlightSyntax(string syntax)
-        {
-            Regex regex = null;
-
-            switch (syntax)
-            {
-                case ".xml":
-                    regex = new Regex(@"<\/?[^>\/]*>");
-                    break;
-            }
-
-            if (regex != null)
-            {
-                ResetTextBoxColors();
-
-                Input.BeginUpdate();
-
-                int lastIndex = Input.SelectionStart;
-                int lastLength = Input.SelectionLength;
-
-                Input.SelectAll();
-
-                var matches = regex.Matches(Input.Text).Cast<Match>().ToArray();
-                if (matches.Length > 0)
-                {
-                    Color color = Color.ForestGreen;
-                    int start = 0;
-                    int end = matches.Length - 1;
-
-                    SelectMatchesFromArr(matches, start, end, color);
-                }
-
-                Input.Select(lastIndex, lastLength);
-                Input.SelectionColor = Color.Black;
-
-                Input.EndUpdate();
-            }
-        }
-
-        private void SelectMatchesFromArr(Match[] matches, int startIndex, int endIndex, Color color)
-        {
-            for (int i = startIndex; i <= endIndex; i++)
-            {
-                int selectionStart = Input.SelectionStart;
-
-                Input.Select(matches[i].Index, matches[i].Length);
-                Input.SelectionColor = color;
-
-                Input.DeselectAll();
-                Input.SelectionStart = selectionStart;
-                Input.SelectionLength = 0;
-            }
-        }
-
         private void FileMode_Click(object sender, EventArgs e)
         {
             string buttonText = _fileMode + " mode";
@@ -219,7 +210,7 @@ namespace BorsenoTextEditor
 
         private void ScreenMode_Click(object sender, EventArgs e)
         {
-            this.ScreenMode.Text = this.BackColor.Name + " mode";
+            this.ScreenMode.Text = this.BackColor.Name + @" mode";
 
             if (_darkEnabled == false)
             {
@@ -236,15 +227,24 @@ namespace BorsenoTextEditor
 
         private void Input_TextChanged(object sender, EventArgs e)
         {
-            if (CurrentFileExtension.In(".json", ".xml"))
+            if (CurrentFileExtension.In(".xml"))
             {
-                HighlightSyntax(CurrentFileExtension);
+                Regex regex = null;
+
+                switch (CurrentFileExtension)
+                {
+                    case ".xml":
+                        regex = new Regex(@"<\/?[^>\/]*>");
+                        break;
+                }
+
+                HighlightSyntax(regex);
             }
         }
 
         private void Input_KeyDown(object sender, KeyEventArgs e)
         {
-            if (CurrentFileExtension.In(".json", ".xml"))
+            if (CurrentFileExtension.In( ".xml"))
                 if (e.KeyData == (Keys.Control | Keys.Z))
                     e.Handled = true;
         }

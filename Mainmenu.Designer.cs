@@ -111,7 +111,7 @@
             this.ScreenMode.Name = "ScreenMode";
             this.ScreenMode.Size = new System.Drawing.Size(105, 39);
             this.ScreenMode.TabIndex = 8;
-            this.ScreenMode.Text = "Night mode";
+            this.ScreenMode.Text = "Black mode";
             this.ScreenMode.UseVisualStyleBackColor = true;
             this.ScreenMode.Click += new System.EventHandler(this.ScreenMode_Click);
             // 

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Windows.Forms;
 using System.Data.SQLite;
-using System.Diagnostics;
-using System.Threading;
 
 namespace BorsenoTextEditor
 {
@@ -33,36 +27,36 @@ namespace BorsenoTextEditor
             {
                 conn.Open();
 
+                string query = $"Select id from {_tableName} where {_nameColumnName} = @name";
+
                 bool nameExists;
-                using (var checkCMD = new SQLiteCommand(
-                    $"Select id from {_tableName} where {_nameColumnName} = @name", conn))
+                using (var checkCMD = new SQLiteCommand(query, conn)) // get whether name exists or not
                 {
                     checkCMD.Parameters.Add(new SQLiteParameter("@name", name));
-
                     using (var reader = checkCMD.ExecuteReader())
                     {
                         nameExists = reader.HasRows;
                     }
                 }
 
-                using (var cmd = new SQLiteCommand(conn))
+                using (var saveCMD = new SQLiteCommand(conn))
                 {
                     if (nameExists)
                     {
-                        cmd.CommandText = $"Update {_tableName} " +
+                        saveCMD.CommandText = $"Update {_tableName} " +
                                 $"set {_valueColumnName} = @value " +
                                 $"where {_nameColumnName} = @name";
                     }
                     else
                     {
-                        cmd.CommandText = $"Insert into {_tableName}({_valueColumnName}, {_nameColumnName}) " +
+                        saveCMD.CommandText = $"Insert into {_tableName}({_valueColumnName}, {_nameColumnName}) " +
                                 $"values (@value, @name)";
                     }
 
-                    cmd.Parameters.Add(new SQLiteParameter("@value", value));
-                    cmd.Parameters.Add(new SQLiteParameter("@name", name));
+                    saveCMD.Parameters.Add(new SQLiteParameter("@value", value));
+                    saveCMD.Parameters.Add(new SQLiteParameter("@name", name));
 
-                    cmd.ExecuteNonQuery();
+                    saveCMD.ExecuteNonQuery();
                 }
             }
         }
@@ -75,11 +69,14 @@ namespace BorsenoTextEditor
             {
                 connection.Open();
 
-                string query = $"SELECT distinct {_valueColumnName} from {_tableName} " +
-                               $"where {_nameColumnName} = '{name}'";
+                string query = $"SELECT distinct {_valueColumnName} " +
+                               $"from {_tableName} " +
+                               $"where {_nameColumnName} = @name";
 
                 using (var command = new SQLiteCommand(query, connection))
                 {
+                    command.Parameters.Add(new SQLiteParameter("@name", name));
+
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.HasRows)

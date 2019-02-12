@@ -13,7 +13,7 @@ namespace BorsenoTextEditor
     {
         public static Encoding GetDBEncoding(string connectionString)
         {
-            string query = "Pragma encoding";
+            const string query = "Pragma encoding";
             string queryResult = null;
 
             using (var connection = new SQLiteConnection(connectionString))
