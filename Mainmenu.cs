@@ -20,10 +20,12 @@ namespace BorsenoTextEditor
         private readonly string _valueColumnName = "binary_file";
         private readonly string _nameColumnName = "Name";
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private readonly Color _defaultTextColor = Color.Black;
+        private readonly Color _syntaxHighlightingTextColor = Color.ForestGreen;
+        private readonly HighlightSupportRichTextBoxColorsProcessor _highlightingProcessor;
         private string _currentFileName;
         private IFilePicker _filePicker;
         private IFileManager _fileManager;
-        private HighlightSupportRichTextBoxColorsProcessor _highlightingProcessor;
         private FileMode? _fileMode;
         private bool _darkEnabled;
 
@@ -42,7 +44,7 @@ namespace BorsenoTextEditor
             openFileDialog1.DefaultExt = "txt";
             saveFileDialog1.DefaultExt = "txt";
 
-            _highlightingProcessor = new HighlightSupportRichTextBoxColorsProcessor(Input, Color.Black);
+            _highlightingProcessor = new HighlightSupportRichTextBoxColorsProcessor(Input, _defaultTextColor);
 
             ChangeFileMode(BorsenoTextEditor.FileMode.Database);
         }
@@ -176,7 +178,7 @@ namespace BorsenoTextEditor
                         break;
                 }
 
-                _highlightingProcessor.HighlightSyntax(regex, Color.ForestGreen);
+                _highlightingProcessor.HighlightSyntax(regex, _syntaxHighlightingTextColor);
             }
         }
 
