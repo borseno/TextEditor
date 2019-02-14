@@ -90,6 +90,7 @@
       <DependentUpon>SaveAsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StringExtension.cs" />
+    <Compile Include="TextBoxProcessor.cs" />
     <EmbeddedResource Include="ChooseFileFromDBForm.resx">
       <DependentUpon>ChooseFileFromDBForm.cs</DependentUpon>
     </EmbeddedResource>

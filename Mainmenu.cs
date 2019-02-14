@@ -23,8 +23,9 @@ namespace BorsenoTextEditor
         private string _currentFileName;
         private IFilePicker _filePicker;
         private IFileManager _fileManager;
+        private HighlightSupportRichTextBoxColorsProcessor _highlightingProcessor;
         private FileMode? _fileMode;
-        bool _darkEnabled;
+        private bool _darkEnabled;
 
         private string CurrentFilePath
         {
@@ -40,6 +41,8 @@ namespace BorsenoTextEditor
 
             openFileDialog1.DefaultExt = "txt";
             saveFileDialog1.DefaultExt = "txt";
+
+            _highlightingProcessor = new HighlightSupportRichTextBoxColorsProcessor(Input, Color.Black);
 
             ChangeFileMode(BorsenoTextEditor.FileMode.Database);
         }
@@ -91,78 +94,13 @@ namespace BorsenoTextEditor
                 CurrentFilePath = filename;
         }
 
-        private void ResetTextBoxColors()
-        {
-            Input.BeginUpdate();
-
-            Input.ForeColor = Color.Black;
-
-            int selectionStart = Input.SelectionStart;
-            int selectionLength = Input.SelectionLength;
-
-            Input.SelectAll();
-            Input.SelectionColor = Color.Black;
-            Input.DeselectAll();
-
-            Input.SelectionStart = selectionStart;
-            Input.SelectionLength = selectionLength;
-
-            Input.EndUpdate();
-        }
-
-        private void HighlightSyntax(Regex regex)
-        {
-            if (regex != null)
-            {
-                ResetTextBoxColors();
-
-                Input.BeginUpdate();
-
-                int lastIndex = Input.SelectionStart;
-                int lastLength = Input.SelectionLength;
-
-                Input.SelectAll();
-
-                Match[] matches = regex.Matches(Input.Text).Cast<Match>().ToArray();
-
-                if (matches.Length > 0)
-                {
-                    Color color = Color.ForestGreen;
-                    int start = 0;
-                    int end = matches.Length - 1;
-
-                    SelectMatchesFromArr(matches, start, end, color);
-                }
-
-                Input.Select(lastIndex, lastLength);
-                Input.SelectionColor = Color.Black;
-
-                Input.EndUpdate();
-            }
-        }
-
-        private void SelectMatchesFromArr(Match[] matches, int startIndex, int endIndex, Color color)
-        {
-            for (int i = startIndex; i <= endIndex; i++)
-            {
-                int selectionStart = Input.SelectionStart;
-
-                Input.Select(matches[i].Index, matches[i].Length);
-                Input.SelectionColor = color;
-
-                Input.DeselectAll();
-                Input.SelectionStart = selectionStart;
-                Input.SelectionLength = 0;
-            }
-        }
-
         private void OnFileChoosing(object sender, EventArgs e)
         {
             OpenFile();
 
             if (!String.IsNullOrEmpty(CurrentFilePath))
             {
-                ResetTextBoxColors();
+                _highlightingProcessor.ResetTextBoxColors();
                 _fileManager.Load(CurrentFilePath, Input);
             }
         }
@@ -238,7 +176,7 @@ namespace BorsenoTextEditor
                         break;
                 }
 
-                HighlightSyntax(regex);
+                _highlightingProcessor.HighlightSyntax(regex, Color.ForestGreen);
             }
         }
 
