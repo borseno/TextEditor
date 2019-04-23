@@ -1,4 +1,6 @@
-﻿namespace BorsenoTextEditor
+﻿using BorsenoTextEditor.Extensions;
+
+namespace BorsenoTextEditor.Forms
 {
     partial class MainForm
     {
@@ -31,7 +33,7 @@
             this.CurrentFileNameLabel = new System.Windows.Forms.Label();
             this.FileMode = new System.Windows.Forms.Button();
             this.ScreenMode = new System.Windows.Forms.Button();
-            this.Input = new BorsenoTextEditor.HighlightSupportRichTextBox();
+            this.Input = new HighlightSupportRichTextBox();
             this.SuspendLayout();
             // 
             // FileChoosing

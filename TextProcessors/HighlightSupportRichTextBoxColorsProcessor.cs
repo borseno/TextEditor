@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using BorsenoTextEditor.Extensions;
 
-namespace BorsenoTextEditor
+namespace BorsenoTextEditor.TextProcessors
 {
     class HighlightSupportRichTextBoxColorsProcessor
     {
@@ -42,32 +39,32 @@ namespace BorsenoTextEditor
 
         public void HighlightSyntax(Regex regex, Color color)
         {
-            if (regex != null)
+            var text = HighlightSupportRichTextBox.Text;
+
+            var matches =
+                regex.Matches(text).Cast<Match>().ToArray();
+
+            ResetTextBoxColors();
+
+            HighlightSupportRichTextBox.BeginUpdate();
+
+            int lastIndex = HighlightSupportRichTextBox.SelectionStart;
+            int lastLength = HighlightSupportRichTextBox.SelectionLength;
+
+            HighlightSupportRichTextBox.SelectAll();
+
+            if (matches.Length > 0)
             {
-                ResetTextBoxColors();
+                int start = 0;
+                int end = matches.Length - 1;
 
-                HighlightSupportRichTextBox.BeginUpdate();
-
-                int lastIndex = HighlightSupportRichTextBox.SelectionStart;
-                int lastLength = HighlightSupportRichTextBox.SelectionLength;
-
-                HighlightSupportRichTextBox.SelectAll();
-
-                Match[] matches = regex.Matches(HighlightSupportRichTextBox.Text).Cast<Match>().ToArray();
-
-                if (matches.Length > 0)
-                {
-                    int start = 0;
-                    int end = matches.Length - 1;
-
-                    SelectMatchesFromArr(matches, start, end, color);
-                }
-
-                HighlightSupportRichTextBox.Select(lastIndex, lastLength);
-                HighlightSupportRichTextBox.SelectionColor = DefaultColor;
-
-                HighlightSupportRichTextBox.EndUpdate();
+                SelectMatchesFromArr(matches, start, end, color);
             }
+
+            HighlightSupportRichTextBox.Select(lastIndex, lastLength);
+            HighlightSupportRichTextBox.SelectionColor = DefaultColor;
+
+            HighlightSupportRichTextBox.EndUpdate();
         }
 
         private void SelectMatchesFromArr(Match[] matches, int startIndex, int endIndex, Color color)

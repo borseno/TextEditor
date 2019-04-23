@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
-namespace BorsenoTextEditor
+
+namespace BorsenoTextEditor.Forms
 {
     partial class ChooseFileFromDBForm : Form
     {

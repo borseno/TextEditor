@@ -1,6 +1,8 @@
 ﻿using System.Windows.Forms;
+using BorsenoTextEditor.File_Work.Interfaces;
+using BorsenoTextEditor.Forms;
 
-namespace BorsenoTextEditor
+namespace BorsenoTextEditor.File_Work.Implementors.Database
 {
     sealed class DBFilePicker : IFilePicker
     {
@@ -14,20 +16,23 @@ namespace BorsenoTextEditor
             _saveAsForm = new SaveAsForm();
         }
 
-        public string GetFile()
+        public string GetFileName()
         {
             _chooseForm.ShowDialog();
+
             if (_chooseForm.DialogResult == DialogResult.OK)
-                return _chooseForm.SelectedFileName;   
+                return _chooseForm.SelectedFileName;  
+            
             return null;
         }
 
-        public string GetOrCreateFile()
+        public string GetOrCreateFileName()
         {
             _saveAsForm.ShowDialog();
 
             if (_saveAsForm.DialogResult == DialogResult.OK)
                 return _saveAsForm.FileName;
+
             return null;
         }
     }

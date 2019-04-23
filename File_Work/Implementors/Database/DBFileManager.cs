@@ -1,8 +1,13 @@
-﻿using System.Text;
-using System.Windows.Forms;
+﻿using System;
 using System.Data.SQLite;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using BorsenoTextEditor.File_Work.Helper_Classes;
+using BorsenoTextEditor.File_Work.Interfaces;
 
-namespace BorsenoTextEditor
+namespace BorsenoTextEditor.File_Work.Implementors.Database
 {
     sealed class DBFileManager : IFileManager
     {
@@ -18,22 +23,22 @@ namespace BorsenoTextEditor
             _tableName = tableName;
             _valueColumnName = valueColumnName;
             _nameColumnName = nameColumnName;
-            _valueEncoding = EncodingHelper.GetDBEncoding(connectionString);
+            _valueEncoding = EncodingHelper.GetDBEncodingSync(connectionString);
         }
 
-        public void Save(string name, string value)
+        public async Task Save(string name, string value)
         {
             using (var conn = new SQLiteConnection(_connectionString))
             {
-                conn.Open();
-
                 string query = $"Select id from {_tableName} where {_nameColumnName} = @name";
-
                 bool nameExists;
+
+                await conn.OpenAsync();
+
                 using (var checkCMD = new SQLiteCommand(query, conn)) // get whether name exists or not
                 {
                     checkCMD.Parameters.Add(new SQLiteParameter("@name", name));
-                    using (var reader = checkCMD.ExecuteReader())
+                    using (var reader = await checkCMD.ExecuteReaderAsync())
                     {
                         nameExists = reader.HasRows;
                     }
@@ -56,18 +61,19 @@ namespace BorsenoTextEditor
                     saveCMD.Parameters.Add(new SQLiteParameter("@value", value));
                     saveCMD.Parameters.Add(new SQLiteParameter("@name", name));
 
-                    saveCMD.ExecuteNonQuery();
+                    await saveCMD.ExecuteNonQueryAsync();
                 }
             }
+
         }
 
-        public void Load(string name, TextBoxBase textBox)
+        public async Task Load(string name, TextBoxBase textBox)
         {
             StringBuilder value = new StringBuilder(32);
 
             using (var connection = new SQLiteConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
 
                 string query = $"SELECT distinct {_valueColumnName} " +
                                $"from {_tableName} " +
@@ -77,20 +83,21 @@ namespace BorsenoTextEditor
                 {
                     command.Parameters.Add(new SQLiteParameter("@name", name));
 
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
+                        textBox.Text = "";
+
                         if (reader.HasRows)
-                        {
+                        {                           
                             while (reader.Read())
-                            {
-                                string temp = _valueEncoding.GetString((byte[]) reader[_valueColumnName]);
-                                value.AppendLine(temp);
+                            {                              
+                                string temp = await Task.Run( () => _valueEncoding.GetString((byte[])reader[_valueColumnName]));
+                                textBox.Text += temp;
                             }
                         }
                     }
                 }
-            }
-            textBox.Text = value.ToString();
+            }  
         }
     }
 }

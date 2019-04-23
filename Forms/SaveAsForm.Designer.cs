@@ -1,4 +1,4 @@
-﻿namespace BorsenoTextEditor
+﻿namespace BorsenoTextEditor.Forms
 {
     partial class SaveAsForm
     {

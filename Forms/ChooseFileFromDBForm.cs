@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Data.SQLite;
 
-namespace BorsenoTextEditor
+namespace BorsenoTextEditor.Forms
 {
     public partial class ChooseFileFromDBForm
     {

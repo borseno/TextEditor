@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using BorsenoTextEditor.File_Work.Interfaces;
 
-namespace BorsenoTextEditor
+namespace BorsenoTextEditor.File_Work.Implementors.File_System
 {
     sealed class ExplorerFilePicker : IFilePicker
     {
@@ -18,21 +14,23 @@ namespace BorsenoTextEditor
             _open = open;
         }
 
-        public string GetFile()
+        public string GetFileName()
         {
             DialogResult dialogResult = _open.ShowDialog();
 
             if (dialogResult == DialogResult.OK)
                 return _open.FileName;
+
             return null;
         }
 
-        public string GetOrCreateFile()
+        public string GetOrCreateFileName()
         {
             DialogResult dialogResult = _save.ShowDialog();
 
             if (dialogResult == DialogResult.OK)
                 return _save.FileName;
+
             return null;
         }
 
