@@ -17,9 +17,9 @@ namespace BorsenoTextEditor.Forms
 {
     public partial class MainForm : Form
     {
-        private const string _tableName = "binary_Files";
-        private const string _valueColumnName = "binary_file";
-        private const string _nameColumnName = "Name";
+        private const string TableName = "binary_Files";
+        private const string ValueColumnName = "binary_file";
+        private const string NameColumnName = "Name";
 
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         private readonly Color _defaultTextColor = Color.Black;
@@ -75,8 +75,8 @@ namespace BorsenoTextEditor.Forms
 
                 if (mode == File_Work.Helper_Classes.FileMode.Database)
                 {
-                    _fileManager = new DBFileManager(_connectionString, _tableName, _valueColumnName, _nameColumnName);
-                    _filePicker = new DBFilePicker(_connectionString, _tableName, _nameColumnName);
+                    _fileManager = new DBFileManager(_connectionString, TableName, ValueColumnName, NameColumnName);
+                    _filePicker = new DBFilePicker(_connectionString, TableName, NameColumnName);
                 }
                 else if (mode == File_Work.Helper_Classes.FileMode.Explorer)
                 {
@@ -95,8 +95,8 @@ namespace BorsenoTextEditor.Forms
 
             if (mode == File_Work.Helper_Classes.FileMode.Database)
             {
-                _fileManager = new DBFileManager(_connectionString, _tableName, _valueColumnName, _nameColumnName);
-                _filePicker = new DBFilePicker(_connectionString, _tableName, _nameColumnName);
+                _fileManager = new DBFileManager(_connectionString, TableName, ValueColumnName, NameColumnName);
+                _filePicker = new DBFilePicker(_connectionString, TableName, NameColumnName);
             }
             else if (mode == File_Work.Helper_Classes.FileMode.Explorer)
             {

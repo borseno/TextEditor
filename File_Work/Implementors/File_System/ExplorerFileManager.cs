@@ -27,10 +27,26 @@ namespace BorsenoTextEditor.File_Work.Implementors.File_System
         {
             into.Clear();
 
-            using (var fileStream = await Task.Run( () => new StreamReader(path, true) ))
+            using (var fileStream = new StreamReader(path, true))
             {
-                string value = await fileStream.ReadToEndAsync();
-                into.Text = value;
+                StringBuilder builder = new StringBuilder(3000);
+                int i = 0;
+
+                while (!fileStream.EndOfStream)
+                {
+                    builder.Append(await fileStream.ReadLineAsync() + Environment.NewLine);
+                    i++;
+
+                    if (i > 50)
+                    {
+                        into.AppendText(builder.ToString());
+                        i = 0;
+                        builder.Clear();
+                    }
+                }
+
+                into.AppendText(builder.ToString());
+                
             }
         }
     }
