@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -55,14 +54,37 @@ namespace BorsenoTextEditor.Forms
 
         private async Task SaveText()
         {
-            if (!String.IsNullOrEmpty(CurrentFileName))
-                await _fileManager.Save(CurrentFileName, Input.Text);
-            else
+            try
             {
-                OpenOrCreateFile();
-
                 if (!String.IsNullOrEmpty(CurrentFileName))
                     await _fileManager.Save(CurrentFileName, Input.Text);
+                else
+                {
+                    OpenOrCreateFile();
+
+                    if (!String.IsNullOrEmpty(CurrentFileName))
+                        await _fileManager.Save(CurrentFileName, Input.Text);
+                }
+            }
+            catch (Exception e)
+            {
+                await Logging.Log(e);
+            }
+        }
+
+        private async Task LoadText()
+        {
+            if (!String.IsNullOrEmpty(CurrentFileName))
+            {
+                try
+                {
+                    _highlightingProcessor.ResetTextBoxColors();
+                    await _fileManager.Load(CurrentFileName, Input);
+                }
+                catch (Exception exc)
+                {
+                    await Logging.Log(exc);
+                }
             }
         }
 
@@ -130,33 +152,16 @@ namespace BorsenoTextEditor.Forms
 
         #region event handlers
 
-        private void InputPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyData == Keys.Tab)
-                e.IsInputKey = true;
-            if (e.KeyData == (Keys.Tab | Keys.Shift))
-                e.IsInputKey = true;
-        }
-
         private async void OnFileChoosing(object sender, EventArgs e)
         {
             GetFileName();
 
-            if (!String.IsNullOrEmpty(CurrentFileName))
-            {
-                _highlightingProcessor.ResetTextBoxColors();
-                await _fileManager.Load(CurrentFileName, Input);
-            }
+            await LoadText();
         }
 
         private async void OnSaving(object sender, EventArgs e)
         {
             await SaveText();
-        }
-
-        private void OnClearing(object sender, EventArgs e)
-        {
-            Input.Clear();
         }
 
         private async void FileMode_Click(object sender, EventArgs e)
@@ -173,6 +178,20 @@ namespace BorsenoTextEditor.Forms
                 await ChangeFileMode(File_Work.Helper_Classes.FileMode.Database);
             }
             CurrentFileName = null;
+        }
+
+        private async void Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == (Keys.Control | Keys.S))
+            {
+                await SaveText();
+                e.Handled = true;
+                return;
+            }
+
+            if (CurrentFileExtension.In(".xml"))
+                if (e.KeyData == (Keys.Control | Keys.Z))
+                    e.Handled = true;
         }
 
         private void ScreenMode_Click(object sender, EventArgs e)
@@ -212,18 +231,17 @@ namespace BorsenoTextEditor.Forms
             }
         }
 
-        private async void Input_KeyDown(object sender, KeyEventArgs e)
+        private void InputPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            if (e.KeyData == (Keys.Control | Keys.S))
-            {
-                await SaveText();
-                e.Handled = true;
-                return;
-            }
+            if (e.KeyData == Keys.Tab)
+                e.IsInputKey = true;
+            if (e.KeyData == (Keys.Tab | Keys.Shift))
+                e.IsInputKey = true;
+        }
 
-            if (CurrentFileExtension.In(".xml"))
-                if (e.KeyData == (Keys.Control | Keys.Z))
-                    e.Handled = true;
+        private void OnClearing(object sender, EventArgs e)
+        {
+            Input.Clear();
         }
 
         #endregion
