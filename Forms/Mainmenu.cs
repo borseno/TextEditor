@@ -130,14 +130,12 @@ namespace BorsenoTextEditor.Forms
 
         #region event handlers
 
-        private async void InputPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void InputPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyData == Keys.Tab)
                 e.IsInputKey = true;
             if (e.KeyData == (Keys.Tab | Keys.Shift))
                 e.IsInputKey = true;
-            if (e.KeyData == (Keys.Control | Keys.S))
-                await SaveText();
         }
 
         private async void OnFileChoosing(object sender, EventArgs e)
@@ -214,8 +212,15 @@ namespace BorsenoTextEditor.Forms
             }
         }
 
-        private void Input_KeyDown(object sender, KeyEventArgs e)
+        private async void Input_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyData == (Keys.Control | Keys.S))
+            {
+                await SaveText();
+                e.Handled = true;
+                return;
+            }
+
             if (CurrentFileExtension.In(".xml"))
                 if (e.KeyData == (Keys.Control | Keys.Z))
                     e.Handled = true;
