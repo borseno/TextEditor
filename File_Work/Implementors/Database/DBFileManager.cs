@@ -1,8 +1,5 @@
-﻿using System;
-using System.Data.SQLite;
-using System.Linq;
+﻿using System.Data.SQLite;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BorsenoTextEditor.File_Work.Helper_Classes;
@@ -70,8 +67,6 @@ namespace BorsenoTextEditor.File_Work.Implementors.Database
 
         public async Task Load(string name, TextBoxBase textBox)
         {
-            StringBuilder value = new StringBuilder(32);
-
             using (var connection = new SQLiteConnection(_connectionString))
             {
                 await connection.OpenAsync();
@@ -86,19 +81,19 @@ namespace BorsenoTextEditor.File_Work.Implementors.Database
 
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        textBox.Text = "";
+                        textBox.Clear();
 
                         if (reader.HasRows)
-                        {                           
-                            while (reader.Read())
-                            {                              
-                                string temp = await Task.Run( () => _valueEncoding.GetString((byte[])reader[_valueColumnName]));
-                                textBox.Text += temp;
-                            }
+                        {                        
+                            await reader.ReadAsync(); // read only the first row
+                            
+                            string temp = await Task.Run(() => _valueEncoding.GetString((byte[])reader[_valueColumnName]));
+
+                            textBox.AppendText(temp);
                         }
                     }
                 }
-            }  
+            }
         }
     }
 }
